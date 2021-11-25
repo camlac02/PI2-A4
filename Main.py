@@ -11,6 +11,6 @@ if __name__=="__main__":
     list_asset = Actif.creationActif(connection)
     list_asset_with_value = Actif.Valeur_Actif(list_asset,date_test,connection)
     for Asset in list_asset_with_value:
-        print(Asset)
+        print(Asset.__repr__())
     
     connection.close_connection()
