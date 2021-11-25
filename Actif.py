@@ -38,9 +38,8 @@ class Actif():
 
             curseur = connexion.execute(requete)
 
-            for row in curseur:
-                actif.append(row)
-            liste_Actifs[i] = actif
+            row = curseur.fetchone()
+            liste_Actifs[i] = row
 
         return liste_Actifs
 
