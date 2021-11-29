@@ -1,1 +1,1 @@
-class Portfolio:
+class Portfolio():
