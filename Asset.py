@@ -1,2 +1,2 @@
-class Asset:
+class Asset():
 	
