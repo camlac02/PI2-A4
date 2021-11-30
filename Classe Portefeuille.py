@@ -17,7 +17,7 @@ class Portefeuille():
         #Fonction qui prend en argument un portefeuille et un entier qui
         #représente la valeur investie
         #La fonction retourne un portefeuille qui associe des valeurs aléatoires
-        #de poids à chaque actif
+        #de poids à chaque  actif
         return self
 
     def __repr__(self):
