@@ -2,7 +2,7 @@ from Connexion import Connexion
 
 #Classe d'actifs
 
-class Actif():
+class Actifs():
 
     def __init__(self, nom, valeur, volume, date):
         self.nom = nom
@@ -20,7 +20,7 @@ class Actif():
         liste_Actifs = []
 
         for row in curseur:
-            action = Actif(row['Noms'],0,0,0)
+            action = Actifs(row['Noms'],0,0,0)
             liste_Actifs.append(action)
         return liste_Actifs
 
