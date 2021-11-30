@@ -20,8 +20,8 @@ class Actif():
         liste_Actifs = []
 
         for row in curseur:
-             liste_Actifs.append(row)
-
+            action = Actif(row['Noms'],0,0,0)
+            liste_Actifs.append(action)
         return liste_Actifs
 
     def Valeur_Actif(liste_Actifs, date, connexion):
@@ -32,16 +32,43 @@ class Actif():
         #toutes les informations le concernant ('Noms', 'valeurs' et 'volumnes') à la date du jour 
 
         for i in range(len(liste_Actifs)):
-            actif = []
 
-            requete = "Select Noms, Valeurs, Volumes from cac where Dates = '"+date+"' and Noms = '"+liste_Actifs[i]['Noms']+"';"
+            requete = "Select valeurs,volumes from cac where Dates = '"+date+"' and Noms = '"+str(liste_Actifs[i].nom)+"';"
 
             curseur = connexion.execute(requete)
 
             row = curseur.fetchone()
-            liste_Actifs[i] = row
+
+            liste_Actifs[i].valeur = row['valeurs']
+            liste_Actifs[i].volume = row['volumes']
+            liste_Actifs[i].date = date
 
         return liste_Actifs
+    
+    #Pas du tout fini
+    def add_rendement(Nom_Actifs,connexion):
+
+        #requete = 'Alter Table cac add rendement float'
+        #connexion.execute(requete)
+
+        #On obtient une liste de rendement pour l'actif : Nom_Actifs
+
+        requete1 = "Select valeurs from cac where Noms = '"+Nom_Actifs+"';"
+        curseur = connexion.execute(requete1)
+        valeurs_precedente = 0 
+        r = []
+
+        for row in curseur:
+            if valeurs_precedente == 0:
+                r.append(0)
+            else :
+                r.append(round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2))
+            valeurs_precedente = row['valeurs']
+            
+        
+        return r
+
 
     def __repr__(self):
         return "Nom : {0}, Valeur : {1}, Volume : {2}, Date : {3}\n".format(self.nom,self.valeur, self.volume, self.date)
+
