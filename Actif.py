@@ -45,15 +45,12 @@ class Actif():
 
         return liste_Actifs
     
-    #Pas du tout fini
-    def add_rendement(Nom_Actifs,connexion):
+    
+    def Rendement_Actif(Nom_Actifs,connexion):
 
-        #requete = 'Alter Table cac add rendement float'
-        #connexion.execute(requete)
+        # Retourne une liste de tuple (date,rendement en %) d'un actif
 
-        #On obtient une liste de rendement pour l'actif : Nom_Actifs
-
-        requete1 = "Select valeurs from cac where Noms = '"+Nom_Actifs+"';"
+        requete1 = "Select valeurs, Dates from cac where Noms = '"+Nom_Actifs+"';"
         curseur = connexion.execute(requete1)
         valeurs_precedente = 0 
         r = []
@@ -62,10 +59,9 @@ class Actif():
             if valeurs_precedente == 0:
                 r.append(0)
             else :
-                r.append(round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2))
+                r.append((row['Dates'].strftime("%d/%m/%Y"),round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)))
             valeurs_precedente = row['valeurs']
             
-        
         return r
 
 
