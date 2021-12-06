@@ -26,7 +26,7 @@ class Actifs():
 
     def Valeur_Actif(liste_Actifs, date, connexion):
 
-        #Fonction qui prend en arguments une liste d'actifs, la date du jour
+        #Fonction  qui prend en arguments une liste d'actifs, la date du jour
         #et la connexion avec la base de données
         #La fonction retourne une liste d'actifs, chacun asocié à une liste contenant
         #toutes les informations le concernant ('Noms', 'valeurs' et 'volumnes') à la date du jour 
