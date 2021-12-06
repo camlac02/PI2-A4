@@ -2,7 +2,7 @@ class Portfolio():
   def __init__(self, ret):
     self.ret = ret
    
-  def ret_portfolio(self, prop):
+  def ret_pf(self, prop):
     ret_geo = []
     for i in range(0, len(self.ret)):
       ret_geo.append(np.prod([x+1 for x in self.ret[i]])**(1/len(self.ret[i])) - 1)
@@ -23,4 +23,7 @@ class Portfolio():
   def optimize_pf(self, ret_d):
     bounds = ((0.0, 1.0),) * len(self.ret)
     init = list(np;random.dirichlet(np.ones(len(self.ret)), size = 1)[0]
-    prop_opti = optimize.minimize(self.vol_pf, init, method = 'SLSQP', constraints = ({'type': 'eq', 'fun': lambda inputs: 1.0 - np.sum(inputs)}
+    prop_opti = optimize.minimize(self.vol_pf, init, method = 'SLSQP', constraints = ({'type': 'eq', 'fun': lambda inputs: 1.0 - np.sum(inputs)},
+                                                                                      {'type': 'eq','fun' : lambda inputs : ret_d - self.ret_pf(prop=inputs)}),
+                                  bounds = bounds)
+    return prop_opti.x
