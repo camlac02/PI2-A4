@@ -1,4 +1,4 @@
-#Classe Connexion
+#Classe   Connexion
 import pymysql.cursors
 
 #Connexion avec la base de données
