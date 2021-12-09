@@ -4,9 +4,15 @@ import numpy as np
     
     def __init__(self, portfeuille):
         self.portfeuille = portfeuille
-        self.date_0=date_0
         
         
+      def annual_pf_return(self):
+      #Compute the annual return of the portfolio
+		ret = []   
+		for i in range(0, len(self.portefeuille) - 1):
+			ret.append((self.portefeuille[i+1] - self.portefeuille[i])/self.pt[i])
+		return(ret) 
+      
   def ret_pf(self, prop):
     ret_geo = []
     for i in range(0, len(self.ret)):
