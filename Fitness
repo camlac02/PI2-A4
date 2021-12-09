@@ -1,4 +1,6 @@
 import numpy as np
+import Actifs
+import Connexion
    
    class Fitness():
     
