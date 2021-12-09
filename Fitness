@@ -1,37 +1,29 @@
-import numpy as np
 import Actifs
+import Portefeuille
 import Connexion
+import numpy as np
    
-   class Fitness():
+class Fitness():
     
     def __init__(self, portfeuille):
         self.portfeuille = portfeuille
         
-        
-      def annual_pf_return(self):
-      #Compute the annual return of the portfolio
-		ret = []   
-		for i in range(0, len(self.portefeuille) - 1):
-			ret.append((self.portefeuille[i+1] - self.portefeuille[i])/self.pt[i])
-		return(ret) 
-      
-  def ret_pf(self, prop):
-    ret_geo = []
-    for i in range(0, len(self.ret)):
-      ret_geo.append(np.prod([x+1 for x in self.ret[i]])**(1/len(self.ret[i])) - 1)
-    return(sum([a*b for a,b in zip(prop, ret_geo)]))
-  
-  def vol_pf(self, prop):
-    std = []
-    for i in self.ret:
-      mean = sum(i)/len(i)
-      std.append(np.sqrt(sum([(x-mean)**2 for x in i])/len(i)))
-    mean_prop = [a*b for a,b in zip(prop, std)]
-    cor = np.corrcoef(self.ret)
-    val = []
-    for j in range(0, len(mean_prop)):
-        val.append(sum([mean_prop[j]*mean_prop[x] ** cor[j,x] for x in range(0,len(mean_prop))]))
-    return(np.sqrt(sum(val)))
-  
-  def score_pf():
-    return prop_opti.x
+    def pf_return(self, prop):   
+      #Compute the return of the portfolio
+        rend = []
+        for i in range(0, len(self.portfeuille)):
+            rend.append(np.prod([x+1 for x in self.portfeuille.rend])**(1/self.portefeuille.rend[i]) - 1)
+        return(sum([a*b for a,b in zip(prop, rend)])/len(rend)) 
+
+    
+    def pf_vol(self, prop):
+        std = []
+        for i in self.portfeuille.rend:
+            mean = sum(i)/len(i)
+            std.append(np.sqrt(sum([(x-mean)**2 for x in i])))
+        mean_prop = [a*b for a,b in zip(prop, std)]/len(self.portfeuille.rend)
+        cor = np.corrcoef(self.portefeuille.rend)
+        val = []
+        for j in range(0, len(mean_prop)):
+            val.append(sum([mean_prop[j]*mean_prop[x] ** cor[j,x] for x in range(0,len(mean_prop))]))
+        return(np.sqrt(sum(val)))
