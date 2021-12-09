@@ -23,11 +23,3 @@ class Portfolio():
         val.append(sum([mean_prop[j]*mean_prop[x] ** cor[j,x] for x in range(0,len(mean_prop))]))
     return(np.sqrt(sum(val)))
   
-  def optimize_pf(self, ret_d):
-    bounds = ((0.0, 1.0),) * len(self.ret)
-    init = list(np.random.dirichlet(np.ones(len(self.ret)), size = 1)[0])
-    prop_opti = optimize.minimize(self.vol_pf, init, method = 'SLSQP',
-                                  constraints = ({'type': 'eq', 'fun': lambda inputs: 1.0 - np.sum(inputs)}, 
-                                                 {'type': 'eq','fun' : lambda inputs : ret_d - self.ret_pf(prop=inputs)}),
-                                  bounds = bounds)
-    return prop_opti.x
