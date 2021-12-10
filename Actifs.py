@@ -4,11 +4,12 @@ from Connexion import Connexion
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date):
+    def __init__(self, nom, valeur, volume, date):#,nb_shares):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
         self.date = date
+        #self.nb_shares = nb_shares
 
     def creationActif(connexion):
 
@@ -42,6 +43,7 @@ class Actifs():
             liste_Actifs[i].valeur = row['valeurs']
             liste_Actifs[i].volume = row['volumes']
             liste_Actifs[i].date = date
+            #liste_Actifs[i].shares = 0
 
         return liste_Actifs
     
