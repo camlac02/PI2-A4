@@ -4,12 +4,12 @@ from Connexion import Connexion
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date):#,nb_shares):
+    def __init__(self, nom, valeur, volume, date,nb_shares):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
         self.date = date
-        #self.nb_shares = nb_shares
+        self.nb_shares = nb_shares
 
     def creationActif(connexion):
 
@@ -21,7 +21,7 @@ class Actifs():
         liste_Actifs = []
 
         for row in curseur:
-            action = Actifs(row['Noms'],0,0,0)
+            action = Actifs(row['Noms'],0,0,0,0)
             liste_Actifs.append(action)
         return liste_Actifs
 

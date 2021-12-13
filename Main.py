@@ -1,6 +1,7 @@
 
 from Connexion import Connexion
 from Actifs import Actifs
+from Portefeuille import Portefeuille
 
 if __name__=="__main__":
     
@@ -14,8 +15,13 @@ if __name__=="__main__":
     
     #print(Actifs.Rendement_Actif('BNP',connection))
     
-    for Asset in list_asset_with_value:
-        print(Asset.__repr__()) 
+    portefeuil_1 = Portefeuille(list_asset,0)
+    portefeuil_1.Creation_Portefeuille(500)
+
+    #for Asset in list_asset_with_value:
+        #print(Asset.__repr__()) 
+
+    print(portefeuil_1.__repr__())
 
     connection.close_connection()
 
