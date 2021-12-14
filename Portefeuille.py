@@ -27,7 +27,7 @@ class Portefeuille():
         liste_Actifs = self.liste_Actifs   
         reste_a_investir = MaxInvesti
 
-        while (MaxInvesti > self.Valeur_Portefeuille()):
+        while (MaxInvesti > self.Valeur_Portefeuille() and reste_a_investir > min):
 
             # Selection d'une action
             choice_asset = random.randint(0,len(liste_Actifs)-1)
@@ -44,11 +44,12 @@ class Portefeuille():
         self.Poid_dans_portefeuille()
         return self
 
-    def Depasse_MaxInvesti(self):
-        depasse = False
-
-
-        return depasse
+    def plus_petit_prix(self):
+        min = self[0]
+        for asset in self:
+            if asset < min:
+                min = asset
+        return min 
 
     #Defini le poid qu'a l'action dans le portefeuil
     def Poid_dans_portefeuille(self):
