@@ -25,38 +25,45 @@ class Portefeuille():
     def Creation_Portefeuille(self, MaxInvesti):
 
         liste_Actifs = self.liste_Actifs   
-        reste_a_investir = MaxInvesti
+        prix_min = self.plus_petit_prix() 
+        assets = list(range(len(liste_Actifs))) # liste des index de tous les actifs du portefeuille
 
-        while (MaxInvesti > self.Valeur_Portefeuille() and reste_a_investir > min):
+        while (MaxInvesti > prix_min and len(assets) !=0 ):
+        # Tant que la valeur a investir (MaxInvest) est superieur au prix de l'actif le moins cher
+        # Et tant que la liste des index des actifs du portefeuil n'est pas vide
+        # on ajoute une action au portefeuille
 
-            # Selection d'une action
-            choice_asset = random.randint(0,len(liste_Actifs)-1)
+            # Selection aléatoire d'une action via son index dans la liste d'actif
+            choice_asset = int(random.choice(assets))
+            assets.remove(choice_asset) # On retire l'index de la liste pour ne pas tomber deux fois sur le même actif
 
-            # Nombre maximal de shares supportable de cet actif
-            max_nb = reste_a_investir//(liste_Actifs[choice_asset].valeur)
+            # Nombre maximal de shares que l'on peut acheter pour cet actif
+            max_nb = MaxInvesti//(liste_Actifs[choice_asset].valeur)
 
-            # Selection du nombre de shares entre 0 et nb_max
-            nb_shares = random.randint(0,max_nb)
-            liste_Actifs[choice_asset].nb_shares = nb_shares
+            # Selection du nombre de shares entre 0 et nb_max 
+            liste_Actifs[choice_asset].nb_shares = random.randint(0,max_nb)
 
-            reste_a_investir = reste_a_investir - nb_shares*liste_Actifs[choice_asset].valeur
+            # On reduit la valeur a investir en lui retirant la valeur des parts de l'actif choisi
+            MaxInvesti = MaxInvesti - liste_Actifs[choice_asset].nb_shares*liste_Actifs[choice_asset].valeur
 
         self.Poid_dans_portefeuille()
         return self
 
+    # Calcul le prix de l'actif avec le plus faible 
     def plus_petit_prix(self):
-        min = self[0]
-        for asset in self:
-            if asset < min:
-                min = asset
+        min = self.liste_Actifs[0].valeur
+        for asset in self.liste_Actifs:
+            if asset.valeur < min:
+                min = asset.valeur
         return min 
 
-    #Defini le poid qu'a l'action dans le portefeuil
+    #Defini le poid qu'a l'action dans le portefeuille
     def Poid_dans_portefeuille(self):
         for i in range(len(self.liste_Actifs)):
             poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
             self.liste_Actifs[i].poids  = round(poids / self.Valeur_Portefeuille()*100,2)
         return self
+
 
     def __repr__(self):
         return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.Valeur_Portefeuille()) 

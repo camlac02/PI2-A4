@@ -17,10 +17,11 @@ if __name__=="__main__":
     # Associe une valeur a chaque actif pour une date donnée
     for asset in list_asset:
         list_asset_with_value.append(asset.Valeur_Actifs(date_test,connection))
-    
+        
+
     # Creation du portefeuille
         #Valeur Max de l'investissement
-    max_invest = 10000
+    max_invest = 1000
     portefeuil_1 = Portefeuille(list_asset_with_value,0)
     portefeuil_1.Creation_Portefeuille(max_invest)
 
