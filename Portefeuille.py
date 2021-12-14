@@ -5,8 +5,6 @@ import  random
 
 class Portefeuille():
 
-    ##il faut rajouter nbshares dans list actifs initialisé à 0
-
     def __init__(self, liste_Actifs, score):
         self.liste_Actifs = liste_Actifs
         self.score = score
