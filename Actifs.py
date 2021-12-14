@@ -4,14 +4,15 @@ from Connexion import Connexion
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares):
+    def __init__(self, nom, valeur, volume, date,nb_shares,poids):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
         self.date = date
         self.nb_shares = nb_shares
+        self.poids = poids
 
-    def creationActif(connexion):
+    def creationActifs(connexion):
 
         #Fonction qui prend en argument la connexion avec la base de données
         #La fonction retourne une liste d'actifs avec le nom de chaque actif
@@ -21,31 +22,25 @@ class Actifs():
         liste_Actifs = []
 
         for row in curseur:
-            action = Actifs(row['Noms'],0,0,0,0)
+            action = Actifs(row['Noms'],0,0,0,0,0)
             liste_Actifs.append(action)
+            
         return liste_Actifs
 
-    def Valeur_Actif(liste_Actifs, date, connexion):
-
+    def Valeur_Actifs(self, date, connexion):
         #Fonction  qui prend en arguments une liste d'actifs, la date du jour
         #et la connexion avec la base de données
         #La fonction retourne une liste d'actifs, chacun asocié à une liste contenant
         #toutes les informations le concernant ('Noms', 'valeurs' et 'volumnes') à la date du jour 
+        requete = "Select valeurs,volumes from cac where Dates = '"+date+"' and Noms = '"+str(self.nom)+"';"
+        curseur = connexion.execute(requete)
+        row = curseur.fetchone()
 
-        for i in range(len(liste_Actifs)):
+        self.valeur = row['valeurs']
+        self.volume = row['volumes']
+        self.date = date
 
-            requete = "Select valeurs,volumes from cac where Dates = '"+date+"' and Noms = '"+str(liste_Actifs[i].nom)+"';"
-
-            curseur = connexion.execute(requete)
-
-            row = curseur.fetchone()
-
-            liste_Actifs[i].valeur = row['valeurs']
-            liste_Actifs[i].volume = row['volumes']
-            liste_Actifs[i].date = date
-            #liste_Actifs[i].shares = 0
-
-        return liste_Actifs
+        return self
     
     
     def Rendement_Actif(Nom_Actifs,connexion):
@@ -68,4 +63,6 @@ class Actifs():
 
 
     def __repr__(self):
-        return "Nom : {0}, Valeur : {1}, Volume : {2}, Date : {3}\n".format(self.nom,self.valeur, self.volume, self.date)
+        #return "Nom : {0}, Valeur : {1}, Volume : {2}, Date : {3}\n".format(self.nom,self.valeur, self.volume, self.date)
+        #return "Nom : {0}, Valeur : {1}, Date : {2}\n".format(self.nom,self.valeur, self.date)
+        return "Nom : {0}, Valeur : {1}, Nom d'Actions : {2}, Poids : {4} %, \nDate : {3}\n".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids)

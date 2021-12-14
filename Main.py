@@ -8,18 +8,21 @@ if __name__=="__main__":
     connection = Connexion('pi2','root','Leo20-Esilv')
     connection.initialisation()
 
-    date_test = "2016-07-01"
-    
-    list_asset = Actifs.creationActif(connection)
-    list_asset_with_value = Actifs.Valeur_Actif(list_asset,date_test,connection)
-    
-    #print(Actifs.Rendement_Actif('BNP',connection))
-    
-    portefeuil_1 = Portefeuille(list_asset,0)
-    portefeuil_1.Creation_Portefeuille(500)
+    # Creation des Actifs (seulement avec le nom)
+    list_asset = Actifs.creationActifs(connection)
 
-    #for Asset in list_asset_with_value:
-        #print(Asset.__repr__()) 
+    date_test = "2016-07-01"
+    list_asset_with_value = []
+
+    # Associe une valeur a chaque actif pour une date donnée
+    for asset in list_asset:
+        list_asset_with_value.append(asset.Valeur_Actifs(date_test,connection))
+    
+    # Creation du portefeuille
+        #Valeur Max de l'investissement
+    max_invest = 10000
+    portefeuil_1 = Portefeuille(list_asset_with_value,0)
+    portefeuil_1.Creation_Portefeuille(max_invest)
 
     print(portefeuil_1.__repr__())
 
