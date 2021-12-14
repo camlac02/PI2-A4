@@ -9,7 +9,6 @@ class Portefeuille():
         self.liste_Actifs = liste_Actifs
         self.score = score
 
-
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
 
