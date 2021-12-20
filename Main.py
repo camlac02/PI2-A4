@@ -1,6 +1,7 @@
 
 from Connexion import Connexion
 from Actifs import Actifs
+from Population import Population
 from Portefeuille import Portefeuille
 
 if __name__=="__main__":
@@ -24,7 +25,11 @@ if __name__=="__main__":
     portefeuil_1 = Portefeuille(list_asset_with_value,0)
     portefeuil_1.Creation_Portefeuille(max_invest)
 
-    print(portefeuil_1.__repr__())
+    #print(portefeuil_1.__repr__())
+
+
+    pop = Population.Creation_Population(3,max_invest,list_asset_with_value)
+    print(pop.__repr__())
 
     connection.close_connection()
 

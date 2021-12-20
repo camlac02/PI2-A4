@@ -1,5 +1,4 @@
 #Classe Portefeuille
-from Connexion import Connexion
 from Actifs import Actifs
 import  random
 
