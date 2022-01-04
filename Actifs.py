@@ -4,13 +4,12 @@ from Connexion import Connexion
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares,poids):
+    def __init__(self, nom, valeur, volume, date,nb_shares):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
         self.date = date
         self.nb_shares = nb_shares
-        self.poids = poids
         #self.rendement = 0
         #self.volatilité = 0
 
@@ -23,7 +22,7 @@ class Actifs():
         liste_Actifs = []
 
         for row in curseur:
-            action = Actifs(row['Noms'],0,0,0,0,0)
+            action = Actifs(row['Noms'],0,0,0,0)
             liste_Actifs.append(action)
             
         return liste_Actifs
@@ -48,7 +47,7 @@ class Actifs():
     def __repr__(self):
         #return "Nom : {0}, Valeur : {1}, Volume : {2}, Date : {3}\n".format(self.nom,self.valeur, self.volume, self.date)
         #return "Nom : {0}, Valeur : {1}, Date : {2}\n".format(self.nom,self.valeur, self.date)
-        return "Nom : {0}, Valeur : {1}, Nom d'Actions : {2}, Poids : {4} %, \nDate : {3}\n".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids)
+        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}".format(self.nom,self.valeur, self.nb_shares, self.date)
 
     
     ##################################  FONCTION PAS UTILISEE ################################################

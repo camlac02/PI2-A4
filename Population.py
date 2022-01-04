@@ -8,10 +8,9 @@ class Population() :
 
 
     def Creation_Population(self, nb_portefeuille, MaxInvesti,list_asset_with_value): #Paramètres à ajouter selon condition du client ? 
-        for i in range(nb_portefeuille):
+        for i in range(0,nb_portefeuille):
             print(i)
-            self.list_portefeuille[i] = Portefeuille(list_asset_with_value,0).Creation_Portefeuille(MaxInvesti)   
-        
+            self.list_portefeuille.append(Portefeuille(list_asset_with_value,0,0).Creation_Portefeuille(MaxInvesti))
         return self
 
     def __repr__(self):

@@ -21,19 +21,25 @@ if __name__=="__main__":
 
     # Creation du portefeuille
         #Valeur Max de l'investissement
-    max_invest = 10000
-    portefeuil_1 = Portefeuille(list_asset_with_value,0)
+    max_invest = 5000
+    portefeuil_1 = Portefeuille(list_asset_with_value,0,0)
     portefeuil_1.Creation_Portefeuille(max_invest)
 
     #print(portefeuil_1.__repr__())
+    portefeuil_1.__repr__()
 
-    liste_portefeuil = [0,0,0]
+    portefeuil_2 = Portefeuille(list_asset_with_value,0,0).Creation_Portefeuille(max_invest)
+    print(portefeuil_2.__repr__())
+
+    '''
+    nb_portefeuils = 3
+    liste_portefeuil = []
 
     pop = Population(liste_portefeuil) 
 
-    pop.Creation_Population(3,max_invest,list_asset_with_value)
+    pop.Creation_Population(nb_portefeuils,max_invest,list_asset_with_value)
     print(pop.__repr__())
-
+    '''
     connection.close_connection()
 
 
