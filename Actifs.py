@@ -11,7 +11,8 @@ class Actifs():
         self.date = date
         self.nb_shares = nb_shares
         self.poids = poids
-
+        #self.rendement = 0
+        #self.volatilité = 0
 
     def creationActifs(connexion):
         #Fonction qui prend en argument la connexion avec la base de données
@@ -65,7 +66,6 @@ class Actifs():
             else :
                 r.append((row['Dates'].strftime("%d/%m/%Y"),round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)))
             valeurs_precedente = row['valeurs']
-            
         return r
     #############################################################################################################
 

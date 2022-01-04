@@ -11,7 +11,8 @@ class Population() :
         for i in range(nb_portefeuille):
             print(i)
             self.list_portefeuille[i] = Portefeuille(list_asset_with_value,0).Creation_Portefeuille(MaxInvesti)   
-        return 0
+        
+        return self
 
     def __repr__(self):
         return "{0}".format(self.list_portefeuille)
