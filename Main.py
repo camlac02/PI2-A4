@@ -27,8 +27,11 @@ if __name__=="__main__":
 
     #print(portefeuil_1.__repr__())
 
+    liste_portefeuil = [0,0,0]
 
-    pop = Population.Creation_Population(3,max_invest,list_asset_with_value)
+    pop = Population(liste_portefeuil) 
+
+    pop.Creation_Population(3,max_invest,list_asset_with_value)
     print(pop.__repr__())
 
     connection.close_connection()
