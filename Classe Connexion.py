@@ -1,34 +1,34 @@
-#Classe   Connexion
-import pymysql.cursors
 
-#Connexion avec la base de données
+import pymysql.cursors  
+
 class Connexion():
-   
-    def __init__(self, bdd, utilisateur, MotDePasse):
-        self.bdd = bdd
-        self.utilisateur = utilisateur
-        self.MotDePasse = MotDePasse
+
+    def __init__(self, database, user, mdp):
+        self.database = database
+        self.user = user
+        self.mdp = mdp
         self.conn = None
         self.cur = None
 
+
     def initialisation(self):
-        #Fonction qui prend en argument la connexion
-        #La fonction ouvre la connexion avec la base de données
+        #La fonction ouvre la connexion avec la base de donnée
         self.conn = pymysql.connect(host='localhost',
-                            utilisateur=self.utilisateur,
-                            MDP=self.MotDePasse,
-                            bdd=self.bdd,
-                            cursorclasse=pymysql.cursors.DictCursor)
+                            user=self.user,
+                            password=self.mdp,
+                            db=self.database,
+                            cursorclass=pymysql.cursors.DictCursor)
         self.cur = self.conn.cursor()
 
+
     def execute(self,requete):
-        #Fonction qui prend en argument la connexion et une requête comme chaîne de caractère
-        #qui correspond à une requête de base de données
-        #La fonction retourne le curseur pour accéder au résultat de la requête
+        #La fonction prend en argument une requete SQL sous forme de chaine de caractère
+        #Et retourne le curseur qui permet d'acceder au résultat de la requete     
         self.cur.execute(requete)
         return self.cur
 
-    def close_connection(self):
-        #Fonction qui prend en argument la connexion et ferme cette connexion
+
+    def close_connection(self):    
+        #La fonction ferme la connexion avec la Base de donnés
         self.cur.close()
         self.conn.close()
