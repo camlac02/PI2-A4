@@ -6,11 +6,24 @@ class Population() :
     def __init__(self, list_portefeuille):
         self.list_portefeuille = list_portefeuille
 
+    def Creation_Population(self, nb_portefeuille, MaxInvesti,connection,date):
+        
+        list_portefeuille = []
 
-    def Creation_Population(self, nb_portefeuille, MaxInvesti,list_asset_with_value): #Paramètres à ajouter selon condition du client ? 
-        for i in range(0,nb_portefeuille):
-            print(i)
-            self.list_portefeuille.append(Portefeuille(list_asset_with_value,0,0).Creation_Portefeuille(MaxInvesti))
+        for i in range(nb_portefeuille):
+
+            #Creation de la liste d'actif
+            list_asset = Portefeuille.Creation_list_actif(connection, date)
+
+            #Creation du portefeuille
+            p = Portefeuille(list_asset,0,0).Creation_Portefeuille(MaxInvesti)
+            list_portefeuille.append(p)
+            
+            print('Creation portefeuille : '+str(i))
+
+        #Ajout de la liste de portefeuille dans la population
+        self.list_portefeuille = list_portefeuille
+
         return self
 
     def __repr__(self):

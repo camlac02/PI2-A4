@@ -28,13 +28,13 @@ class Actifs():
         return liste_Actifs
 
 
-    def Valeur_Actifs(self, date, connexion):
+    def Valeur_Actifs(self, date, connection):
         #Fonction  qui prend en arguments une liste d'actifs, la date du jour
         #et la connexion avec la base de données
         #La fonction retourne une liste d'actifs, chacun asocié à une liste contenant
         #toutes les informations le concernant ('Noms', 'valeurs' et 'volumnes') à la date du jour 
         requete = "Select valeurs,volumes from cac where Dates = '"+date+"' and Noms = '"+str(self.nom)+"';"
-        curseur = connexion.execute(requete)
+        curseur = connection.execute(requete)
         row = curseur.fetchone()
 
         self.valeur = row['valeurs']
@@ -45,26 +45,55 @@ class Actifs():
     
     
     def __repr__(self):
-        #return "Nom : {0}, Valeur : {1}, Volume : {2}, Date : {3}\n".format(self.nom,self.valeur, self.volume, self.date)
-        #return "Nom : {0}, Valeur : {1}, Date : {2}\n".format(self.nom,self.valeur, self.date)
+        #return "Nom : {0}, nbr d'action : {1}, r : {2};\n".format(self.nom,self.nb_shares,self.rendement)
         return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}".format(self.nom,self.valeur, self.nb_shares, self.date)
 
-    
+
+
     ##################################  FONCTION PAS UTILISEE ################################################
-    def Rendement_Actif(Nom_Actifs,connexion):
+
+    def Rendement_Actif(self,connexion):
 
         # Retourne une liste de tuple (date,rendement en %) d'un actif
-        requete1 = "Select valeurs, Dates from cac where Noms = '"+Nom_Actifs+"';"
+        requete1 = "Select valeurs, Dates from cac where Noms = '"+self.nom+"';"
         curseur = connexion.execute(requete1)
         valeurs_precedente = 0 
-        r = []
-
+  
         for row in curseur:
             if valeurs_precedente == 0:
-                r.append(0)
+                self.rendement = 0
             else :
-                r.append((row['Dates'].strftime("%d/%m/%Y"),round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)))
+                self.rendement = (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2))
             valeurs_precedente = row['valeurs']
-        return r
+
+        return self
+
+'''
+    def Volatilite_Actif(Nom_Actifs,connexion):
+        
+        r = Rendement_Actif(Nom_Actifs,connexion)
+        r_moyen = 0 
+        for i in range(len(r)):
+            r_moyen = int(r[i]) + r_moyen     
+        r_moyen = r_moyen / len(r)
+
+        carre_ecart_variation_moyenne = []
+        for i in r:
+            carre_ecart_variation_moyenne.append((i-r_moyen)**2/100**2)
+
+        v = 0
+
+        for i in range(len(r)):
+            v = v + carre_ecart_variation_moyenne[i]
+
+        v = (v/len(r))**1/2
+
+        return v
+
+
+
+
+
+'''
     #############################################################################################################
 

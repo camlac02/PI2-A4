@@ -9,15 +9,32 @@ class Portefeuille():
         self.valeur = valeur
         self.score = score
 
+
+    #Cree une liste d'actif avec leur prix a une date choisit
+    def Creation_list_actif(connection, date):
+           
+        list_asset_with_value = []
+
+        list_asset = Actifs.creationActifs(connection)
+
+        #Associe une valeur a chaque actif
+        for asset in list_asset:
+                list_asset_with_value.append(asset.Valeur_Actifs(date,connection)) 
+
+        return list_asset_with_value
+
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
-        print('TOUR')
+
         prix_min = self.plus_petit_prix() 
         assets = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
-        
+
+        '''
         for i in range(len(self.liste_Actifs)):
             self.liste_Actifs[i].nb_shares = 0
-            print(str(self.liste_Actifs[i].nb_shares)+'\n')
+        '''
+        for i in range(len(self.liste_Actifs)):
+            self.liste_Actifs[i].nb_shares = 0
 
         while (MaxInvesti > prix_min and len(assets) !=0 ):
         # Tant que la valeur a investir (MaxInvest) est superieur au prix de l'actif le moins cher
