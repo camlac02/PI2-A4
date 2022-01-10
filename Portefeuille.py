@@ -23,18 +23,16 @@ class Portefeuille():
 
         return list_asset_with_value
 
+
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
 
         prix_min = self.plus_petit_prix() 
         assets = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
-
-        '''
+        
         for i in range(len(self.liste_Actifs)):
             self.liste_Actifs[i].nb_shares = 0
-        '''
-        for i in range(len(self.liste_Actifs)):
-            self.liste_Actifs[i].nb_shares = 0
+            
 
         while (MaxInvesti > prix_min and len(assets) !=0 ):
         # Tant que la valeur a investir (MaxInvest) est superieur au prix de l'actif le moins cher
@@ -79,6 +77,12 @@ class Portefeuille():
             if asset.valeur < min:
                 min = asset.valeur
         return min 
+
+
+
+
+
+
 
     #################################################################################################################################
     #Defini le poid qu'a l'action dans le portefeuille

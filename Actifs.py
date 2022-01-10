@@ -4,13 +4,13 @@ from Connexion import Connexion
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares):
+    def __init__(self, nom, valeur, volume, date,nb_shares,rendement):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
         self.date = date
         self.nb_shares = nb_shares
-        #self.rendement = 0
+        self.rendement = rendement
         #self.volatilité = 0
 
     def creationActifs(connexion):
@@ -22,7 +22,7 @@ class Actifs():
         liste_Actifs = []
 
         for row in curseur:
-            action = Actifs(row['Noms'],0,0,0,0)
+            action = Actifs(row['Noms'],0,0,0,0,0)
             liste_Actifs.append(action)
             
         return liste_Actifs
@@ -40,17 +40,15 @@ class Actifs():
         self.valeur = row['valeurs']
         self.volume = row['volumes']
         self.date = date
+        self.Rendement_Actif(connection)
 
         return self
     
     
     def __repr__(self):
         #return "Nom : {0}, nbr d'action : {1}, r : {2};\n".format(self.nom,self.nb_shares,self.rendement)
-        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}".format(self.nom,self.valeur, self.nb_shares, self.date)
+        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nRendement : {4}".format(self.nom,self.valeur, self.nb_shares, self.date,self.rendement)
 
-
-
-    ##################################  FONCTION PAS UTILISEE ################################################
 
     def Rendement_Actif(self,connexion):
 
@@ -64,9 +62,15 @@ class Actifs():
                 self.rendement = 0
             else :
                 self.rendement = (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2))
+            
             valeurs_precedente = row['valeurs']
 
+
         return self
+
+
+
+    ##################################  FONCTION PAS UTILISEE ################################################
 
 '''
     def Volatilite_Actif(Nom_Actifs,connexion):
