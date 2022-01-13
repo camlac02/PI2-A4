@@ -1,3 +1,4 @@
+from django.http import request
 from Connexion import Connexion
 
 #Classe d'actifs
@@ -69,8 +70,24 @@ class Actifs():
         return self
 
 
-
     ##################################  FONCTION PAS UTILISEE ################################################
+
+    def Rendement(connexion):
+
+        requete_creation_columne = "ALTER TABLE cac ADD rendement float;"
+        connexion.execute(requete_creation_columne)
+
+        requete = "Select * from cac;"
+        curseur = connexion.execute(requete)
+
+        valeurs_precedente = 0 
+
+        for row in curseur:
+
+            request = "INSERT INTO cac ('rendement') VALUES ("+ (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)) +") ;"
+            valeurs_precedente = row['valeurs']
+
+        return 0 
 
 '''
     def Volatilite_Actif(Nom_Actifs,connexion):

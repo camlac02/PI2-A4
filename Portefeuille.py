@@ -79,11 +79,6 @@ class Portefeuille():
         return min 
 
 
-
-
-
-
-
     #################################################################################################################################
     #Defini le poid qu'a l'action dans le portefeuille
     def Poid_dans_portefeuille(self):
