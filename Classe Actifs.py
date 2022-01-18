@@ -1,4 +1,4 @@
-#Classe d'actifs
+  #Classe d'actifs
 
 class Actif():
     def __init__(self, nom, valeur, volume, date):
