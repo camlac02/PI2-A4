@@ -2,7 +2,7 @@
 from Actifs import Actifs
 import  random
 
-
+#pour copier la liste d'actif et pas faire de doublons
 import copy
 
 class Portefeuille():
@@ -40,32 +40,33 @@ class Portefeuille():
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
 
+        #pour copier la liste d'actif et pas faire de doublons
         liste_Actif = copy.deepcopy(self.liste_Actifs)
 
         prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
-        assets = list(range(len(liste_Actif))) # liste des index de tous les actifs du portefeuille   
+        action = list(range(len(liste_Actif))) # liste des index de tous les actifs du portefeuille   
 
         for i in range(len(liste_Actif)):
             liste_Actif[i].nb_shares = 0
 
-        while (MaxInvesti > prix_min and len(assets) !=0 ):
+        while (MaxInvesti > prix_min and len(action) !=0 ):
         # Tant que la valeur a investir (MaxInvest) est superieur au prix de l'actif le moins cher
         # Et tant que la liste des index des actifs du portefeuil n'est pas vide
         # on ajoute une action au portefeuill
 
             # Selection aléatoire d'une action via son index dans la liste d'actif
-            choice_asset = random.choice(assets)
-            assets.remove(choice_asset) # On retire l'index de la liste pour ne pas tomber deux fois sur le même actif
+            choix_action = random.choice(action)
+            action.remove(choix_action) # On retire l'index de la liste pour ne pas tomber deux fois sur le même actif
 
             # Nombre maximal de shares que l'on peut acheter pour cet actif
-            max_nb = MaxInvesti//(liste_Actif[choice_asset].valeur)
+            max_nb = MaxInvesti//(liste_Actif[choix_action].valeur)
             # Selection du nombre de shares entre 0 et nb_max 
 
             #self.liste_nbr_shares[choice_asset] = random.randint(0,max_nb)
             rnd = random.randint(0,max_nb)
-            liste_Actif[choice_asset].nb_shares = rnd
+            liste_Actif[choix_action].nb_shares = rnd
             # On reduit la valeur a investir en lui retirant la valeur des parts de l'actif choisi
-            MaxInvesti = MaxInvesti - liste_Actif[choice_asset].nb_shares*liste_Actif[choice_asset].valeur
+            MaxInvesti = MaxInvesti - liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
             #MaxInvesti = MaxInvesti - int(self.liste_nbr_shares[choice_asset])*self.liste_Actifs[choice_asset].valeur
 
         self.liste_Actifs = liste_Actif
