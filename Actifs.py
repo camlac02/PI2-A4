@@ -66,11 +66,21 @@ class Actifs():
             
             valeurs_precedente = row['valeurs']
 
-
         return self
 
+    #.copy()
 
     ##################################  FONCTION PAS UTILISEE ################################################
+
+    def copy(self):
+        nom = self.nom
+        valeur = self.valeur
+        volume = self.volume
+        date = self.date
+        nb_shares = self.nb_shares.copy()
+        rendement = self.rendement
+        Actif = Actifs(nom,valeur,volume,date,nb_shares,rendement)
+        return Actif
 
     def Rendement(connexion):
 
@@ -84,7 +94,7 @@ class Actifs():
 
         for row in curseur:
 
-            request = "INSERT INTO cac ('rendement') VALUES ("+ (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)) +") ;"
+            requete2 = "INSERT INTO cac ('rendement') VALUES ("+ (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2)) +") ;"
             valeurs_precedente = row['valeurs']
 
         return 0 
@@ -112,9 +122,5 @@ class Actifs():
         return v
 
 
-
-
-
 '''
     #############################################################################################################
-
