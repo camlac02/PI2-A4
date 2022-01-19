@@ -11,7 +11,7 @@ class Connexion():
 
 
     def initialisation(self):
-        #La fonction ouvre la connexion avec la base de donnée
+        #La fonction ouvre la connexion avec la base de données
         self.conn = pymysql.connect(host='localhost',
                             user=self.user,
                             password=self.mdp,

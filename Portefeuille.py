@@ -34,7 +34,7 @@ class Portefeuille():
 
    
 
-    #Créé un portefeuil composé d'une liste d'action aléatoire
+    #Créé un portefeuille composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
 
         #pour copier la liste d'actif et pas faire de doublons
@@ -82,8 +82,6 @@ class Portefeuille():
             self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
             #self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_nbr_shares [i])
         return self
-
-
 
 
 

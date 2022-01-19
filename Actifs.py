@@ -12,7 +12,7 @@ class Actifs():
         self.date = date
         self.nb_shares = nb_shares
         self.rendement = rendement
-        #self.volatilité = 0
+        #self.volatilite = 0
 
     def creationActifs(connexion):
         #Fonction qui prend en argument la connexion avec la base de données
