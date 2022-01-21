@@ -14,7 +14,7 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_test = "01/07/2016"
+    date_test = "2016-07-01"
 
     #Valeur Max de l'investissement
     max_invest = 5000

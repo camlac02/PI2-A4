@@ -24,10 +24,8 @@ def CalculMatrice(Connexion,date1,date2):
         for row in curseur2:
             ListeRendements.append(row['Rendements'])
         Liste.append(ListeRendements)
-    Liste2=np.array(Liste)
-    print(Liste2[1])
-    #np.cov()
-    #matrix=np.cov(Liste2,bias=True)
+    print(Liste)
+    #matrix=np.cov(Liste,bias=True)
     #print(matrix)
 
     '''A = [45.2,37,42,35,39]
@@ -38,15 +36,16 @@ def CalculMatrice(Connexion,date1,date2):
     Liste1.append(B)
     Liste1.append(C)
     data=np.array(Liste1)
-    covMatrix = np.cov(data,bias=True)
-    print (covMatrix)
-    ''' 
+    print(Liste1)
+    covMatrix = np.cov(data,bias=False)
+    print (covMatrix)'''
+    
     return 0
 
 if __name__=="__main__":
     connection = Connexion('cac','root','Jhanamal0004@')
     connection.initialisation()
-    CalculMatrice(connection,"03/11/2021","05/11/2021")
+    CalculMatrice(connection,"2017-11-09","2017-11-17")
     connection.close_connection()
     
         
