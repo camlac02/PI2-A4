@@ -5,6 +5,7 @@ from math import sqrt
 from Connexion import Connexion
 from datetime import datetime
 
+#test
 
 class Fitness():
     
