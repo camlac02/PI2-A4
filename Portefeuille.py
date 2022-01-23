@@ -3,7 +3,7 @@ from Actifs import Actifs
 import  random
 
 #pour copier la liste d'actif et pas faire de doublons
-import copy
+from copy import deepcopy
 
 class Portefeuille():
 
@@ -41,11 +41,12 @@ class Portefeuille():
     def Creation_Portefeuille(self, MaxInvesti):
 
         #pour copier la liste d'actif et pas faire de doublons
-        liste_Actif = copy.deepcopy(self.liste_Actifs)
+        liste_Actif = deepcopy(self.liste_Actifs)
 
         prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
         action = list(range(len(liste_Actif))) # liste des index de tous les actifs du portefeuille   
 
+        #On reinitialise la valeur des nb_shares
         for i in range(len(liste_Actif)):
             liste_Actif[i].nb_shares = 0
 

@@ -53,6 +53,7 @@ class Actifs():
 
 
     # Crée une copy d'un actifs pour pouvoir le modifier sans modifier sa sauvgarde précédente
+    '''
     def copy(self):
         nom = self.nom
         valeur = self.valeur
@@ -62,7 +63,7 @@ class Actifs():
         rendement = self.rendement
         Actif = Actifs(nom,valeur,volume,date,nb_shares,rendement)
         return Actif
-
+    '''
     ##################################  FONCTION PAS UTILISEE ################################################
 
     def Rendement_Actif(self,connexion):
