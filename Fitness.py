@@ -12,7 +12,7 @@ class Fitness():
         self.portfeuille=portfeuille
         self.debut=debut
 
-    def score(portfeuille, volatilite, rendement, debut, date):
+    def score(portefeuille, volatilite, rendement, debut, date):
         v=Fitness.Volatilite(portefeuille, debut, date)
         return score
 
