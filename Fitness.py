@@ -11,21 +11,26 @@ class Fitness():
         self.portfeuille=portfeuille
         self.debut=debut
 
+    #Calcul du score du portefeuille suivant la volatilité et le rendement désiré
     def score(portefeuille, volatilite, rendement, debut, date):
         vol=0
+        #Calcul de volatilité
         v=Fitness.Volatilite(portefeuille, debut, date)
+        #Calcul de la somme de la différence de la volatilité voulue comparée à la volatilité du portefeuille
         vol = (v-volatilite)*(v-volatilite)
-
-        print("La volatitilité du portfeuille est de :",v,"%")
+        print("La volatitilité du portfeuille est :",v,"%")
+        
+        #Calcul de rendement 
         r=Fitness.rendement(Fitness.tab_value_portfolio(portefeuille,debut,date))
+        #Calcul de la somme de la différence du rendement voulu comparé au rendement du portefeuille
         rend = (r-rendement)*(r-rendement)
-        print("Le rendement du portfeuille est de :",r,"%")
+        print("Le rendement du portfeuille est :",r,"%")
+        
+        #Calcul du score comme la somme des différences
         score = vol + rend
-        
-        
-        v=Fitness.Volatilite(portefeuille, debut, date)
         return score
 
+    #
     def TabActifs(nom, debut, date):
         tableau=[]
         debut = date_to_int(debut)
@@ -36,7 +41,10 @@ class Fitness():
         curseur = conn.connection()
         for ligne in curseur:
             if (ligne[nom]!= 'PX_LAST'):
+                #re.sub permet de remplacer les premiers éléments par le second
                 NbShares = re.sub('\,+', '.', ligne[nom])
+                #On ajoute le nombre de shares de chaque actif dans le tableau 
+                #1 si la valeur n'est pas encore définie et le nombre de shares sinon
                 if (NbShares=='#N/A N/A'):
                     tableau.append(1)
                 else :
