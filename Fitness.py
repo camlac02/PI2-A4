@@ -30,7 +30,7 @@ class Fitness():
         score = vol + rend
         return score
 
-    #
+    #Tableau des nombres de Shares 
     def TabActifs(nom, debut, date):
         tableau=[]
         debut = date_to_int(debut)
@@ -53,24 +53,24 @@ class Fitness():
         return tableau
 
 # Calcul de Volatilite
-    def Volatilite(portfeuille, debut, date):
-        taille=len(portfeuille.liste.Actifs)
+    def Volatilite(portefeuille, debut, date):
+        taille=len(portefeuille.liste.Actifs)
         tab=[]
         #Calcul de variation pour chaque actif
         for i in range(0,taille):
-            name1 = portfeuille.liste.Actifs[i].name
-            a=Fitness.variation(Fitness.TabActifs(name1,debut, date))
+            nom1 = portefeuille.liste_Actifs[i].nom
+            a=Fitness.variation(Fitness.TabActifs(nom1,debut, date))
             somme=0
+            #Somme des covariances pondérées par les volumes
             for j in range (0,taille):
-                name2 = portfeuille.list_assets[j].name
-                b=Fitness.variation(Fitness.TabActifs(name2,debut, date))
-                value = portfeuille.list_assets[i].percentage * portfeuille.list_assets[j].percentage * Covariance(a,b)
-                somme = somme + value
+                nom2 = portefeuille.liste_Actifs[j].nom
+                b=Fitness.variation(Fitness.TabActifs(nom2,debut, date))
+                somme = somme + portefeuille.liste_Actifs[i].volume * portefeuille.liste_Actifs[j].volume* Covariance(a,b)
             tab.append(somme)
-        var_potrfolio=0
+        varPF=0
         for t in range (0,len(tab)):
-            var_potrfolio=var_potrfolio+tab[t]
-        vol = sqrt(var_potrfolio)*100*sqrt(252)
+            varPF=varPF+tab[t]
+        vol = sqrt(varPF)*100*sqrt(252)
         return vol
 
 # Calcul de Variation
