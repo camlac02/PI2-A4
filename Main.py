@@ -5,7 +5,7 @@ from Population import Population
 from Portefeuille import Portefeuille
 
 if __name__=="__main__":
-    
+        
     #Connexion a la base de donnée
     connection = Connexion('pi2','root','Leo20-Esilv')
     connection.initialisation()

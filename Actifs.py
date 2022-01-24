@@ -52,18 +52,7 @@ class Actifs():
         return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nRendement : {4}".format(self.nom,self.valeur, self.nb_shares, self.date,self.rendement)
 
 
-    # Crée une copy d'un actifs pour pouvoir le modifier sans modifier sa sauvgarde précédente
-    '''
-    def copy(self):
-        nom = self.nom
-        valeur = self.valeur
-        volume = self.volume
-        date = self.date
-        nb_shares = self.nb_shares.copy()
-        rendement = self.rendement
-        Actif = Actifs(nom,valeur,volume,date,nb_shares,rendement)
-        return Actif
-    '''
+
     ##################################  FONCTION PAS UTILISEE ################################################
 
     def Rendement_Actif(self,connexion):
