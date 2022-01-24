@@ -26,4 +26,4 @@ class Fitness():
         val = []
         for j in range(0, len(mean_prop)):
             val.append(sum([mean_prop[j]*mean_prop[x] ** cor[j,x] for x in range(0,len(mean_prop))]))
-        return(np.sqrt(sum(val)))
+        return(np.sqrt(sum(val))) 
