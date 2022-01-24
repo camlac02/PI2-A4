@@ -83,8 +83,46 @@ class Fitness():
             tab_var.append(a)
         return tab_var
 
+#Calcul de rendement
+    def rendement(tableau):
+        i=0
+        res=1
+        tabRendements=[]
+        #Création d'un tableau des rendements
+        while i<len(tableau)-1:
+            tabRendements.append((tableau[i+1]-tableau[i])/(tableau[i]))
+            i=i+1
+        j=0
+        #Produit des rendements (1+r) 
+        while j<len(tabRendements):
+            res=res*(1+tabRendements[j])
+            j=j+1
+        #Pourcentage de rendements
+        return (res-1)*100
 
-#Fonctions pour calcul du Fitness
+#Calcul des valeurs de portefeuilles
+    def tabValPF(portefeuille,debut, date):
+        tabVal=[]
+        tab_Noms=Actifs.creationActifs()
+        tabValPf=[]
+        i=0
+        #Tableau avec le nombre de shares selon le nombre d'actifs
+        while i<len(tab_Noms):
+            tabVal.append(Fitness.TabActifs(tab_Noms[i].nom,debut, date))
+            i=i+1
+        t=0
+        #Somme des valeurs de chaque actif du portefeuille (contenu dans le tableau de valeurs) multiplié par le nombre de shares 
+        while t<len(tabVal[0]):
+            j=0
+            total=0
+            while j<len(tabVal):
+                total=total+portefeuille.liste_Actifs[j].nb_shares*tabVal[j][t]
+                j=j+1
+            tabValPf.append(total)
+            t=t+1
+        return tabValPf
+
+#Fonctions pour aider à calculer le Fitness
 
 #La moyenne est la somme des valeurs divisée par la quantité de valeurs
 def Moyenne(tableau):
