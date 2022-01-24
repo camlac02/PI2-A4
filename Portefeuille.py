@@ -12,20 +12,6 @@ class Portefeuille():
         self.valeur = valeur
         self.score = score
 
-    '''
-    #Cree une liste d'actif avec leur prix a une date choisit
-    def Creation_list_actif(connection, date):
-           
-        list_asset_with_value = []
-
-        list_asset = Actifs.creationActifs(connection)
-
-        #Associe une valeur a chaque actif
-        for asset in list_asset:
-                list_asset_with_value.append(asset.Valeur_Actifs(date,connection)) 
-
-        return list_asset_with_value
-    '''
 
     # Calcul le prix de l'actif avec le plus faible 
     def plus_petit_prix(liste_Actif):
