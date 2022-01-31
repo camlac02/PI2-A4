@@ -1,10 +1,10 @@
 #Classe Portefeuille
 from Actifs import Actifs
 import  random
-
+import VaRCov
 #pour copier la liste d'actif et pas faire de doublons
 import copy
-
+import Connexion
 class Portefeuille():
 
     def __init__(self, liste_Actifs, valeur, score):
@@ -86,9 +86,8 @@ class Portefeuille():
 
 
 
-
     #################################################################################################################################
-    #Defini le poid qu'a l'action dans le portefeuille
+    #Defini le poids qu'a l'action dans le portefeuille
     def Poid_dans_portefeuille(self):
         for i in range(len(self.liste_Actifs)):
             poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
