@@ -14,8 +14,8 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_test = "2016-07-01"
-
+    date1 = "2016-07-01"
+    date2="2016-08-02"
     #Valeur Max de l'investissement
     max_invest = 5000
     
@@ -30,7 +30,7 @@ if __name__=="__main__":
 
     #Associe une valeur a chaque actif
     for asset in list_asset:
-            list_asset_with_value.append(asset.Valeur_Actifs(date_test,connection))
+            list_asset_with_value.append(asset.Valeur_Actifs(date1,date2,connection))
 
     #print(list_asset_with_value)
     #Creation de la population
