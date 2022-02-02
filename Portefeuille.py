@@ -66,42 +66,34 @@ class Portefeuille():
             MaxInvesti = MaxInvesti - liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
             #MaxInvesti = MaxInvesti - int(self.liste_nbr_shares[choice_asset])*self.liste_Actifs[choice_asset].valeur
 
+        self.Valeur_Portefeuille(liste_Actif) #calule les poids
+       
+        self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
+        
         self.liste_Actifs = liste_Actif
-        self.Valeur_Portefeuille()
-        #self.Poid_dans_portefeuille()
+        
         return self
 
 
     # Calcul la valeur d'un portefeuille
-    def Valeur_Portefeuille(self):
+    def Valeur_Portefeuille(self,liste_Actifs):
         #Fonction qui prend en argument un portefeuille et qui calcule
         #la valeur associée à ce portefeuille 
-        self.liste_Actifs
-        for i in range(len( self.liste_Actifs)):
+        for i in range(len( liste_Actifs)):
             #valeur=valeur asset*poids
-            self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
+            self.valeur = self.valeur + liste_Actifs[i].valeur*int( liste_Actifs[i].nb_shares)
             #self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_nbr_shares [i])
-        return self
-
-
 
 
     #################################################################################################################################
     #Defini le poids qu'a l'action dans le portefeuille
-    def Poid_dans_portefeuille(self):
-        for i in range(len(self.liste_Actifs)):
-            poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
-            self.liste_Actifs[i].poids  = round(poids / self.Valeur_Portefeuille()*100,2)
-        return self
+    def Poid_dans_portefeuille(self,liste_Actif):
+        for i in range(len(liste_Actif)):
+            poids = liste_Actif[i].valeur * liste_Actif[i].nb_shares
+            liste_Actif[i].poids  = round(poids / self.valeur*100,2)
     ####################################################################################################################################
     
     
     def __repr__(self):
         return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
            
-    '''
-    def __repr__(self):    
-        for i in range(len(self.liste_nbr_shares)):
-            print("{0}, Nbr of shares : {1}".format(self.liste_Actifs[i],self.liste_nbr_shares[i]) )
-        print("\nValeur du portefeuil : {0}\nScore du portefeuille : {1}\n\n".format(self.valeur,self.score))
-    '''

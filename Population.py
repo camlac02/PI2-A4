@@ -39,26 +39,7 @@ class Population() :
     
     #Calcul des rendements moyens entre 2 dates
 
-    def MoyenneRendements(self,Connexion,date1,date2):
-        Liste=[]
-        requete1="Select distinct name from helo;"
-        curseur=Connexion.execute(requete1)
-        ListeNoms=[]
-        #on récupère la liste des noms des actifs
-        for row in curseur:
-            ListeNoms.append(row['name'])
-        for name in ListeNoms:
-            somme=0
-            requete2="select Rendements from helo where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
-            #on récupère la liste des Rendements de chaque actif
-            curseur2=Connexion.execute(requete2)    
-            nbrow=0
-            for row in curseur2:
-                somme+=(row['Rendements'])
-                nbrow+=1
-            moyenne=somme/nbrow
-            Liste.append(moyenne)
-        print(Liste)
+
 
     def __repr__(self):
         return "{0}".format(self.list_portefeuille)
