@@ -15,7 +15,7 @@ class Actifs():
         self.date = date
         self.nb_shares = nb_shares
         self.rendement = rendement
-        self.poids=poids
+        self.poids=poids 
         self.moyenneRendements=moyenneRendements
         #self.volatilité = 0
 
@@ -74,7 +74,7 @@ class Actifs():
             for row in curseur2:
                 somme+=(row['Rendements'])
                 nbrow+=1
-            moyenne=somme/nbrow
+            moyenne=round(somme/nbrow,6)
             if(self.nom==name):
                 self.moyenneRendements=moyenne
             #Liste.append(moyenne)

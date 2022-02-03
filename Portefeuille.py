@@ -1,10 +1,14 @@
 #Classe Portefeuille
+from re import M
 from Actifs import Actifs
+from VaRCov import VaRCov
+from Connexion import Connexion
 import  random
-import VaRCov
+
 #pour copier la liste d'actif et pas faire de doublons
 import copy
-import Connexion
+import math
+import numpy as np
 class Portefeuille():
 
     def __init__(self, liste_Actifs, valeur, score):
@@ -69,7 +73,7 @@ class Portefeuille():
         self.Valeur_Portefeuille(liste_Actif) #calule les poids
        
         self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
-        
+        #self.VolPortefeuille(liste_Actif)
         self.liste_Actifs = liste_Actif
         
         return self
@@ -93,7 +97,18 @@ class Portefeuille():
             liste_Actif[i].poids  = round(poids / self.valeur*100,2)
     ####################################################################################################################################
     
-    
+    def VolPortefeuille(self,listeActif):
+        Listepoids=[]
+        for i in listeActif:
+            Listepoids.append(i.poids)
+        mat = VaRCov([]) 
+        connection = Connexion('cac','root','Jhanamal0004@')
+        connection.initialisation()
+        matrice=mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+        connection.close_connection()
+        vol=math.sqrt(np.transpose(Listepoids)@(matrice@Listepoids))
+        self.score=vol
+        
     def __repr__(self):
         return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
            
