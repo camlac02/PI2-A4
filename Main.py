@@ -42,8 +42,5 @@ if __name__=="__main__":
     PF = Portefeuille(list_asset, 0, 0)
     PF.Creation_Portefeuille(max_invest)
     #print(PF)
-
-    print(Fitness.Volatilite(PF,date_test,date_actuelle))
-
     
     connection.close_connection()

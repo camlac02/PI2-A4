@@ -1,15 +1,22 @@
 #Classe Portefeuille
+from re import M
 from Actifs import Actifs
-import  random
+from VaRCov import VaRCov
+from Connexion import Connexion
+import random
 
 #pour copier la liste d'actif et pas faire de doublons
 import copy
+import math
+import numpy as np
 
 class Portefeuille():
 
-    def __init__(self, liste_Actifs, valeur, score):
+    def __init__(self, liste_Actifs, valeur, volatilite, rendement, score):
         self.liste_Actifs = liste_Actifs
         self.valeur = valeur
+        self.volatilite = volatilite
+        self.rendement = rendement
         self.score = score
 
     '''
@@ -95,6 +102,33 @@ class Portefeuille():
     ####################################################################################################################################
     
     
+    def VolPortefeuille(self,liste_Actif):
+        Listepoids=[]
+        for i in liste_Actif:
+            Listepoids.append(i.poids)
+        mat = VaRCov([]) 
+        connection = Connexion('pi2','root','root')
+        connection.initialisation()
+        matrice=mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+        connection.close_connection()
+        vol=math.sqrt(np.transpose(Listepoids)@(matrice@Listepoids))
+        self.volatilite=vol
+
+    def RendementsPF(self, liste_Actif):
+        Listepoids=[]
+        Rend = []
+        RendementPf = 0
+        for i in liste_Actif:
+            Listepoids.append(i.poids)
+            Rend.append(i.moyenneRendements)
+            RendementPf = RendementPf + Rend[i]*Listepoids[i]
+        self.rendement = RendementPf
+
+    def RatioSharpe(self):
+        ratio = self.rendement/self.volatilite
+        self.score = ratio
+        
+
     def __repr__(self):
         return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
            
