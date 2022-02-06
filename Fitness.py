@@ -4,6 +4,7 @@ import re
 from math import sqrt
 from Connexion import Connexion
 from datetime import datetime
+from VaRCov import VaRCov
 
 class Fitness():
     
@@ -54,9 +55,16 @@ class Fitness():
 
 # Calcul de Volatilite
     def Volatilite(portefeuille, debut, date):
-        taille=len(portefeuille.liste.Actifs)
+        taille=len(portefeuille.liste_Actifs)
         tab=[]
-        #Calcul de variation pour chaque actif
+        matrice = VaRCov.CalculMatrice([[]], Connexion, debut, date)
+        
+        for i in range(0,taille):
+            for j in range(0,taille):
+                volume = volume + matrice[i,j]*portefeuille.liste_Actifs[i].volume * portefeuille.liste_Actifs[j].volume
+        return volume
+
+        '''#Calcul de variation pour chaque actif
         for i in range(0,taille):
             nom1 = portefeuille.liste_Actifs[i].nom
             a=Fitness.variation(Fitness.TabActifs(nom1,debut, date))
@@ -71,7 +79,7 @@ class Fitness():
         for t in range (0,len(tab)):
             varPF=varPF+tab[t]
         vol = sqrt(varPF)*100*sqrt(252)
-        return vol
+        return vol'''
 
 # Calcul de Variation
     def variation(tableau):

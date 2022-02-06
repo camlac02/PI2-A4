@@ -1,7 +1,9 @@
+from datetime import date
 from Connexion import Connexion
 from Actifs import Actifs
 from Population import Population
 from Portefeuille import Portefeuille
+from Fitness import Fitness
 
 if __name__=="__main__":
     
@@ -11,6 +13,9 @@ if __name__=="__main__":
 
     #Date de création du portefeuille
     date_test = "2016-07-01"
+
+    #Date de fin
+    date_actuelle = "2021-11-08"
 
     #Valeur Max de l'investissement
     max_invest = 5000
@@ -32,8 +37,13 @@ if __name__=="__main__":
 
     pop.Creation_Population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
     #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
+    
+    #print(pop.__repr__())
+    PF = Portefeuille(list_asset, 0, 0)
+    PF.Creation_Portefeuille(max_invest)
+    #print(PF)
 
-    print(pop.__repr__())
+    print(Fitness.Volatilite(PF,date_test,date_actuelle))
 
     
     connection.close_connection()
