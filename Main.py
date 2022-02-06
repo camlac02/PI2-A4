@@ -38,9 +38,9 @@ if __name__=="__main__":
     pop.Creation_Population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
     #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
     
-    #print(pop.__repr__())
-    PF = Portefeuille(list_asset, 0, 0)
-    PF.Creation_Portefeuille(max_invest)
+    print(pop.__repr__())
+    #PF = Portefeuille(list_asset, 0, 0)
+    #PF.Creation_Portefeuille(max_invest)
     #print(PF)
     
     connection.close_connection()
