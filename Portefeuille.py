@@ -11,9 +11,11 @@ import math
 import numpy as np
 class Portefeuille():
 
-    def __init__(self, liste_Actifs, valeur, score):
+    def __init__(self, liste_Actifs, valeur, volatilite, rendement, score):
         self.liste_Actifs = liste_Actifs
         self.valeur = valeur
+        self.volatilite = volatilite
+        self.rendement = rendement
         self.score = score
 
     '''
@@ -71,9 +73,10 @@ class Portefeuille():
             #MaxInvesti = MaxInvesti - int(self.liste_nbr_shares[choice_asset])*self.liste_Actifs[choice_asset].valeur
 
         self.Valeur_Portefeuille(liste_Actif) #calule les poids
-       
         self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
+        self.RendementsPF(liste_Actif)
+        self.RatioSharpe()
         self.liste_Actifs = liste_Actif
         
         return self
@@ -94,7 +97,7 @@ class Portefeuille():
     def Poid_dans_portefeuille(self,liste_Actif):
         for i in range(len(liste_Actif)):
             poids = liste_Actif[i].valeur * liste_Actif[i].nb_shares
-            liste_Actif[i].poids  = round(poids / self.valeur*100,2)
+            liste_Actif[i].poids  = round(poids / self.valeur,2)
     ####################################################################################################################################
     
     def VolPortefeuille(self,listeActif):
@@ -110,9 +113,19 @@ class Portefeuille():
         matrice=mat.matrice
         #print(matrice)
         connection.close_connection()
-        vol=math.sqrt(np.transpose(Listepoids)@(matrice@Listepoids))
+        vol=math.sqrt((np.transpose(Listepoids))@(matrice@Listepoids))
         print("vol   ",vol)
-        self.score=vol
+        self.volatilite=vol
+    
+    def RendementsPF(self, liste_Actif):
+        RendementPf = 0
+        for i in liste_Actif:
+            RendementPf = RendementPf + (i.poids)*(i.moyenneRendements)
+        self.rendement = RendementPf
+        
+    def RatioSharpe(self):
+        ratio = self.rendement/self.volatilite
+        self.score = ratio
         
     def __repr__(self):
         return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 

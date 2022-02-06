@@ -30,7 +30,7 @@ class Population() :
         for i in range(nb_portefeuille):
             
 
-            p = Portefeuille(list_asset,0,0).Creation_Portefeuille(MaxInvest)
+            p = Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest)
             list_portefeuille.append(p)
 
         self.list_portefeuille = list_portefeuille

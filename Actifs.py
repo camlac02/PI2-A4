@@ -48,7 +48,7 @@ class Actifs():
         self.date = date1
         self.rendement=row['Rendements']
         self.poids=0
-        #self.MoyenneRendements(date1,date2,connection)
+        self.MoyenneRendements(date1,date2,connection)
         return self
     
     
