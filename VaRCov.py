@@ -24,10 +24,10 @@ class VaRCov():
             for row in curseur2:
                 ListeRendements.append(row['Rendements'])
             Liste.append(ListeRendements)
-        print(type(Liste))
-        print(Liste)
+        #print(type(Liste))
+        #print(Liste)
         matrix=np.cov(Liste,bias=True)
-        print(matrix)
+        #print(matrix)
         self.matrice=matrix
 
 

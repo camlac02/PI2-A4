@@ -73,7 +73,7 @@ class Portefeuille():
         self.Valeur_Portefeuille(liste_Actif) #calule les poids
        
         self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
-        #self.VolPortefeuille(liste_Actif)
+        self.VolPortefeuille(liste_Actif)
         self.liste_Actifs = liste_Actif
         
         return self
@@ -101,12 +101,17 @@ class Portefeuille():
         Listepoids=[]
         for i in listeActif:
             Listepoids.append(i.poids)
+        Listepoids=np.array(Listepoids)
+        #print(Listepoids)
         mat = VaRCov([]) 
         connection = Connexion('cac','root','Jhanamal0004@')
         connection.initialisation()
-        matrice=mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+        mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+        matrice=mat.matrice
+        #print(matrice)
         connection.close_connection()
         vol=math.sqrt(np.transpose(Listepoids)@(matrice@Listepoids))
+        print("vol   ",vol)
         self.score=vol
         
     def __repr__(self):

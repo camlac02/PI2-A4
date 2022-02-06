@@ -15,7 +15,7 @@ if __name__=="__main__":
 
     #Date de création du portefeuille
     date1 = "2016-07-01"
-    date2="2016-08-02"
+    date2="2016-07-15"
     #Valeur Max de l'investissement
     max_invest = 5000
     
