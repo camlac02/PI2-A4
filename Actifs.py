@@ -3,7 +3,6 @@ import pandas
 from math import nan
 from django.http import request
 
-
 #Classe d'actifs
 
 class Actifs():
