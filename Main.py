@@ -11,14 +11,14 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_test = "2016-07-01"
+    date_1 = "2016-07-01"
+    #date_2 = "2016-07-15"
 
     #Valeur Max de l'investissement
     max_invest = 5000
     
     #Nombre de portefeuilles par population
-    nb_portefeuils = 4
-
+    nb_portefeuils = 1
     
     list_asset_with_value = []
 
@@ -26,17 +26,22 @@ if __name__=="__main__":
 
     #Associe une valeur a chaque actif
     for asset in list_asset:
-            list_asset_with_value.append(asset.Valeur_Actifs(date_test,connection))
+            #list_asset_with_value.append(asset.Valeur_Actifs(date_1,date_2,connection))
+            list_asset_with_value.append(asset.Valeur_Actifs(date_1,connection))
  
     #Creation de la population
     pop = Population([]) 
 
-    pop.Creation_Population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
+    pop.creation_population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
     #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
+    pop.sort_population()
+    
+    print(pop.__repr__())
+
+    pop.mutation1()
 
     print(pop.__repr__())
 
-    
     connection.close_connection()
 
 

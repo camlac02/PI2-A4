@@ -1,6 +1,6 @@
 #Classe Portefeuille
 from Actifs import Actifs
-import  random
+import random
 
 #pour copier la liste d'actif et pas faire de doublons
 from copy import deepcopy
@@ -21,7 +21,9 @@ class Portefeuille():
                 min = asset.valeur
         return min 
 
-   
+    def score_portefeuil(self):
+        self.score = round(random.random(),4)
+        return self
 
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
@@ -74,8 +76,46 @@ class Portefeuille():
         return self
 
 
+    def __repr__(self):
+        return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
+        #return "{0}\nScore du portefeuille :  {1}\n".format(self.valeur,self.score) 
 
 
+    def mutation(self):
+
+        r = random.randrange(0,len(self.liste_Actifs))
+        while (self.liste_Actifs[r].nb_shares == 0):
+            r = random.randrange(0,len(self.liste_Actifs))
+
+        total_value = self.liste_Actifs[r].nb_shares*self.liste_Actifs[r].valeur
+
+        # retire la valeur de l'actif au portefeuille
+        self.valeur -= total_value
+        self.liste_Actifs[r].nb_shares = 0
+        print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
+
+        prix_min = Portefeuille.plus_petit_prix(self.liste_Actifs) 
+        action = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
+
+        action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
+
+        #On realise la même manipulation que pour creation_portefeuille
+        while (total_value > prix_min and len(action) !=0 ):
+
+            choix_action = random.choice(action)
+            action.remove(choix_action) 
+
+            max_nb = total_value//(self.liste_Actifs[choix_action].valeur)
+
+            rnd = random.randint(0,max_nb)
+            self.liste_Actifs[choix_action].nb_shares = rnd
+            
+            valeur = self.liste_Actifs[choix_action].nb_shares*self.liste_Actifs[choix_action].valeur
+            total_value = total_value - valeur
+
+            self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+
+        return self
 
     #################################################################################################################################
     #Defini le poid qu'a l'action dans le portefeuille
@@ -87,12 +127,3 @@ class Portefeuille():
     ####################################################################################################################################
     
     
-    def __repr__(self):
-        return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
-           
-    '''
-    def __repr__(self):    
-        for i in range(len(self.liste_nbr_shares)):
-            print("{0}, Nbr of shares : {1}".format(self.liste_Actifs[i],self.liste_nbr_shares[i]) )
-        print("\nValeur du portefeuil : {0}\nScore du portefeuille : {1}\n\n".format(self.valeur,self.score))
-    '''
