@@ -18,7 +18,7 @@ if __name__=="__main__":
     max_invest = 5000
     
     #Nombre de portefeuilles par population
-    nb_portefeuils = 1
+    nb_portefeuils = 4
     
     list_asset_with_value = []
 
@@ -33,14 +33,18 @@ if __name__=="__main__":
     pop = Population([]) 
 
     pop.creation_population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
-    #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
     pop.sort_population()
+    print(pop.__repr__())
     
-    print(pop.__repr__())
+    Generation_max = 5
 
-    pop.mutation1()
+    for i in range(Generation_max):
+        
+        print('Generation : '+str(i))
+        pop = Population(Population.nouvelle_population(pop,list_asset_with_value,max_invest))
+        pop.sort_population()
 
-    print(pop.__repr__())
+        print(pop.__repr__())
 
     connection.close_connection()
 

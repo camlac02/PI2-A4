@@ -21,7 +21,7 @@ class Portefeuille():
                 min = asset.valeur
         return min 
 
-    def score_portefeuil(self):
+    def score_portefeuille(self):
         self.score = round(random.random(),4)
         return self
 
@@ -60,6 +60,7 @@ class Portefeuille():
 
         self.liste_Actifs = liste_Actif
         self.Valeur_Portefeuille()
+        self.score_portefeuille() #AJOUTE SCORE AU PORTEFEUILLE
         #self.Poid_dans_portefeuille()
         return self
 
@@ -77,20 +78,18 @@ class Portefeuille():
 
 
     def __repr__(self):
-        return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
-        #return "{0}\nScore du portefeuille :  {1}\n".format(self.valeur,self.score) 
+        #return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
+        return "Valeur du Portefeuille : {0}\nScore du portefeuille :  {1}\n".format(self.valeur,self.score) 
 
 
-    def mutation(self):
+    def mutation(self,MaxInvest):
 
         r = random.randrange(0,len(self.liste_Actifs))
         while (self.liste_Actifs[r].nb_shares == 0):
             r = random.randrange(0,len(self.liste_Actifs))
 
-        total_value = self.liste_Actifs[r].nb_shares*self.liste_Actifs[r].valeur
-
         # retire la valeur de l'actif au portefeuille
-        self.valeur -= total_value
+        self.valeur -= MaxInvest
         self.liste_Actifs[r].nb_shares = 0
         print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
 
@@ -100,18 +99,18 @@ class Portefeuille():
         action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
 
         #On realise la même manipulation que pour creation_portefeuille
-        while (total_value > prix_min and len(action) !=0 ):
+        while (MaxInvest > prix_min and len(action) !=0 ):
 
             choix_action = random.choice(action)
             action.remove(choix_action) 
 
-            max_nb = total_value//(self.liste_Actifs[choix_action].valeur)
+            max_nb = MaxInvest//(self.liste_Actifs[choix_action].valeur)
 
             rnd = random.randint(0,max_nb)
             self.liste_Actifs[choix_action].nb_shares = rnd
             
             valeur = self.liste_Actifs[choix_action].nb_shares*self.liste_Actifs[choix_action].valeur
-            total_value = total_value - valeur
+            MaxInvest = MaxInvest - valeur
 
             self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
 
