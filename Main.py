@@ -47,5 +47,3 @@ if __name__=="__main__":
         print(pop.__repr__())
 
     connection.close_connection()
-
-
