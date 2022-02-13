@@ -1,5 +1,28 @@
 {% extends 'main.html' %}
+{% block content %}
 
-{% block content%}
-<h1>Accueil</h1>
-{% endblock %}
+<br>
+<div class="row">
+	<div class="col-md-offset-5">
+		<h5>Choix clients:</h5>
+		<hr>
+		<div class="card card-body">
+			
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>investissement max</th>
+					<th>rendement souhaité</th>
+                    <th>nombres de portefeuilles souhaité</th>
+				</tr>
+
+			</table>
+            <a class="btn btn-primary  btn-sm btn-block" href="">Créer les portefeuilles</a>
+		</div>
+	</div>
+
+
+</div>
+
+
+{% endblock content%}
