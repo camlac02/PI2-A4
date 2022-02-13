@@ -126,7 +126,41 @@ class Portefeuille():
     def RatioSharpe(self):
         ratio = self.rendement/self.volatilite
         self.score = ratio
+    
+    def mutation(self,MaxInvest):
+    
+        r = random.randrange(0,len(self.liste_Actifs))
+        while (self.liste_Actifs[r].nb_shares == 0):
+            r = random.randrange(0,len(self.liste_Actifs))
+
+        # retire la valeur de l'actif au portefeuille
+        self.valeur -= MaxInvest
+        self.liste_Actifs[r].nb_shares = 0
+        print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
+
+        prix_min = Portefeuille.plus_petit_prix(self.liste_Actifs) 
+        action = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
+
+        action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
+
+        #On realise la même manipulation que pour creation_portefeuille
+        while (MaxInvest > prix_min and len(action) !=0 ):
+
+            choix_action = random.choice(action)
+            action.remove(choix_action) 
+
+            max_nb = MaxInvest//(self.liste_Actifs[choix_action].valeur)
+
+            rnd = random.randint(0,max_nb)
+            self.liste_Actifs[choix_action].nb_shares = rnd
+            
+            valeur = self.liste_Actifs[choix_action].nb_shares*self.liste_Actifs[choix_action].valeur
+            MaxInvest = MaxInvest - valeur
+
+            self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+
+        return self
         
     def __repr__(self):
-        return "{0}\nValeur du portefeuille : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
+        return "{0}\nValeur du portefeuille :  {2}\nScore du portefeuille : {3}\nVol du portefeuille :  {1}\n\n".format(self.liste_Actifs,self.volatilite,self.valeur,self.score) 
            

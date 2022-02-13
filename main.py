@@ -14,7 +14,7 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date1 ="2016-07-01"
+    date1 = "2016-07-01"
     date2="2016-07-15"
     #Valeur Max de l'investissement
     max_invest = 5000
@@ -47,4 +47,17 @@ if __name__=="__main__":
     #pop.MoyenneRendements(connection,"2017-11-09")
 
     
+    pop.sort_population()
+    print(pop.__repr__())
+    
+    Generation_max = 5
+
+    for i in range(Generation_max):
+        
+        print('Generation : '+str(i))
+        pop = Population(Population.nouvelle_population(pop,list_asset_with_value,max_invest))
+        pop.sort_population()
+
+        print(pop.__repr__())
+
     connection.close_connection()
