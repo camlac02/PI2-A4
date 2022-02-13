@@ -47,4 +47,17 @@ if __name__=="__main__":
     #pop.MoyenneRendements(connection,"2017-11-09")
 
     
+    pop.sort_population()
+    print(pop.__repr__())
+    
+    Generation_max = 5
+
+    for i in range(Generation_max):
+        
+        print('Generation : '+str(i))
+        pop = Population(Population.nouvelle_population(pop,list_asset_with_value,max_invest))
+        pop.sort_population()
+
+        print(pop.__repr__())
+
     connection.close_connection()
