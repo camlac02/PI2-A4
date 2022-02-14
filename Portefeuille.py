@@ -18,17 +18,6 @@ class Portefeuille():
         self.rendement = rendement
         self.score = score
 
-    '''
-    #Cree une liste d'actif avec leur prix a une date choisit
-    def Creation_list_actif(connection, date):
-           
-        list_asset_with_value = []
-        list_asset = Actifs.creationActifs(connection)
-        #Associe une valeur a chaque actif
-        for asset in list_asset:
-                list_asset_with_value.append(asset.Valeur_Actifs(date,connection)) 
-        return list_asset_with_value
-    '''
 
     # Calcul le prix de l'actif avec le plus faible 
     def plus_petit_prix(liste_Actif):
@@ -97,7 +86,7 @@ class Portefeuille():
     def Poid_dans_portefeuille(self,liste_Actif):
         for i in range(len(liste_Actif)):
             poids = liste_Actif[i].valeur * liste_Actif[i].nb_shares
-            liste_Actif[i].poids  = round(poids / self.valeur,2)
+            liste_Actif[i].poids  = round(poids / self.valeur,5)
     ####################################################################################################################################
     
     def VolPortefeuille(self,listeActif):
@@ -109,11 +98,11 @@ class Portefeuille():
         mat = VaRCov([]) 
         connection = Connexion('cac','root','Jhanamal0004@')
         connection.initialisation()
-        mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+        mat.CalculMatrice(connection,"2018-11-01","2018-11-30")
         matrice=mat.matrice
         #print(matrice)
         connection.close_connection()
-        vol=math.sqrt((np.transpose(Listepoids))@(matrice@Listepoids))
+        vol=math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
         print("vol   ",vol)
         self.volatilite=vol
     
@@ -162,5 +151,5 @@ class Portefeuille():
         return self
         
     def __repr__(self):
-        return "{0}\nValeur du portefeuille :  {2}\nScore du portefeuille : {3}\nVol du portefeuille :  {1}\n\n".format(self.liste_Actifs,self.volatilite,self.valeur,self.score) 
-           
+        #return "{0}\nValeur du portefeuille :  {2}\nScore du portefeuille : {3}\nVol du portefeuille : {4}\nRendementPF : {1}\n\n".format(self.liste_Actifs,self.volatilite,self.valeur,self.score) 
+        return "\nListe Actifs : {0}, \nValeur portefeuille : {1}, \nSharpe : {2}, \nVol : {3}\nRendementPF : {4}".format(self.liste_Actifs,self.valeur, self.score, self.volatilite,self.rendement)
