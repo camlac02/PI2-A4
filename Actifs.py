@@ -74,7 +74,7 @@ class Actifs():
             for row in curseur2:
                 somme+=(row['Rendements'])
                 nbrow+=1
-            moyenne=round(somme/nbrow,6)
+            moyenne=round(somme,6)
             if(self.nom==name):
                 self.moyenneRendements=moyenne
             #Liste.append(moyenne)
