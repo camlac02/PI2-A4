@@ -1,4 +1,5 @@
 #Classe Portefeuille
+from curses.ascii import SO
 from re import M
 from Actifs import Actifs
 from VaRCov import VaRCov
@@ -107,10 +108,16 @@ class Portefeuille():
         self.volatilite=vol
     
     def RendementsPF(self, liste_Actif):
-        RendementPf = 0
-        for i in liste_Actif:
-            RendementPf = RendementPf + (i.poids)*(i.moyenneRendements)
-        self.rendement = RendementPf
+        RendementPF =0
+        Liste=[]
+        SommePF=1
+        for j in range(len(liste_Actif[1].ListeRendementsValeurs)):
+            RendementPF =0
+            for i in liste_Actif:
+                Liste=i.ListeRendementsValeurs
+                RendementPF+=Liste[j][0]*i.nb_shares*Liste[j][1]/self.valeur
+            SommePF*=(1+RendementPF)
+        self.rendement = SommePF-1
         
     def RatioSharpe(self):
         ratio = self.rendement/self.volatilite
@@ -153,3 +160,4 @@ class Portefeuille():
     def __repr__(self):
         #return "{0}\nValeur du portefeuille :  {2}\nScore du portefeuille : {3}\nVol du portefeuille : {4}\nRendementPF : {1}\n\n".format(self.liste_Actifs,self.volatilite,self.valeur,self.score) 
         return "\nListe Actifs : {0}, \nValeur portefeuille : {1}, \nSharpe : {2}, \nVol : {3}\nRendementPF : {4}".format(self.liste_Actifs,self.valeur, self.score, self.volatilite,self.rendement)
+

@@ -34,6 +34,7 @@ if __name__=="__main__":
 
     #print(list_asset_with_value)
     #Creation de la population
+    
     pop = Population([]) 
 
     print('creation des portefeuilles')

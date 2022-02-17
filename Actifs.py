@@ -1,14 +1,15 @@
+from sklearn.exceptions import NonBLASDotWarning
 from Connexion import Connexion
 import pandas
 from math import nan
 from django.http import request
-
+import numpy as np
 
 #Classe d'actifs
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares,rendement,poids,moyenneRendements):
+    def __init__(self, nom, valeur, volume, date,nb_shares,rendement,poids,ListeRendementsValeurs):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
@@ -16,7 +17,7 @@ class Actifs():
         self.nb_shares = nb_shares
         self.rendement = rendement
         self.poids=poids 
-        self.moyenneRendements=moyenneRendements
+        self.ListeRendementsValeurs=ListeRendementsValeurs
         #self.volatilité = 0
 
     def creationActifs(connexion):
@@ -48,35 +49,33 @@ class Actifs():
         self.date = date1
         self.rendement=row['Rendements']
         self.poids=0
-        self.MoyenneRendements(date1,date2,connection)
+        self.RendementsPourPF(date1,date2,connection)
         return self
     
     
     def __repr__(self):
         #return "Nom : {0}, nbr d'action : {1}, r : {2};\n".format(self.nom,self.nb_shares,self.rendement)
-        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nPoids : {4}\nRendementmoyen : {5}".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids,self.moyenneRendements)
+        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nPoids : {4}".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids)
 
-
-    def MoyenneRendements(self,date1,date2,connection):
-        Liste=[]
+        
+    def RendementsPourPF(self,date1,date2,connection):
+        '''
         requete1="Select distinct name from helo;"
         curseur=connection.execute(requete1)
         ListeNoms=[]
         #on récupère la liste des noms des actifs
         for row in curseur:
             ListeNoms.append(row['name'])
-        for name in ListeNoms:
-            somme=0
-            requete2="select Rendements from helo where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
-            #on récupère la liste des Rendements de chaque actif
-            curseur2=connection.execute(requete2)    
-            nbrow=0
-            for row in curseur2:
-                somme+=(row['Rendements'])
-                nbrow+=1
-            moyenne=round(somme,6)
-            if(self.nom==name):
-                self.moyenneRendements=moyenne
+        Nbname=1
+        for name in ListeNoms:'''
+        Liste=[]
+        requete2="select Rendements,value from helo where name='"+str(self.nom)+"' and date between '"+date1+"' and '"+date2+"';"
+        #on récupère la liste des Rendements de chaque actif
+        curseur2=connection.execute(requete2)    
+        for row in curseur2:
+            Liste.append([row['Rendements'],row['value']])
+        self.ListeRendementsValeurs=Liste
+        print(Liste)
             #Liste.append(moyenne)
         #print(Liste)
 
@@ -110,9 +109,33 @@ class Actifs():
         rendement = self.rendement
         Actif = Actifs(nom,valeur,volume,date,nb_shares,rendement)
         return Actif
+    
+    def MoyenneRendements(self,date1,date2,connection):
+        Liste=[]
+        requete1="Select distinct name from helo;"
+        curseur=connection.execute(requete1)
+        ListeNoms=[]
+        #on récupère la liste des noms des actifs
+        for row in curseur:
+            ListeNoms.append(row['name'])
+        for name in ListeNoms:
+            somme=0
+            requete2="select Rendements from helo where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
+            #on récupère la liste des Rendements de chaque actif
+            curseur2=connection.execute(requete2)    
+            nbrow=0
+        for row in curseur2:
+            somme+=(row['Rendements'])
+            nbrow+=1
+        moyenne=round(somme,6)
+        if(self.nom==name):
+            self.moyenneRendements=moyenne
+        #Liste.append(moyenne)
+    #print(Liste)
 
     #############################################################################################################
 
+    
     #fonction pour introduire les rendements dans un csv
 '''
     def InsertionRendements(connexion):
