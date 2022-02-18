@@ -10,7 +10,7 @@ import csv
 if __name__=="__main__":
     
     #Connexion a la base de donnée
-    connection = Connexion('cac','root','Jhanamal0004@')
+    connection = Connexion('pi2','root','root')
     connection.initialisation()
 
     #Date de création du portefeuille

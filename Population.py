@@ -74,7 +74,7 @@ class Population() :
 
 if __name__=="__main__":
     pop = Population ([])
-    connection = Connexion('cac','root','Jhanamal0004@')
+    connection = Connexion('pi2','root','root')
     connection.initialisation()
     pop.MoyenneRendements(connection,"2017-11-09","2017-11-17")
     connection.close_connection()

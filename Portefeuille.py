@@ -95,7 +95,7 @@ class Portefeuille():
         Listepoids=np.array(Listepoids)
         #print(Listepoids)
         mat = VaRCov([]) 
-        connection = Connexion('cac','root','Jhanamal0004@')
+        connection = Connexion('pi2','root','root')
         connection.initialisation()
         mat.CalculMatrice(connection,"2018-11-01","2018-11-30")
         matrice=mat.matrice
