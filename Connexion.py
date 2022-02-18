@@ -1,4 +1,4 @@
-import pymysql.cursors
+import pymysql.cursors  
 
 class Connexion():
 
@@ -11,7 +11,7 @@ class Connexion():
 
 
     def initialisation(self):
-        #La fonction ouvre la connexion avec la base de données
+        #La fonction ouvre la connexion avec la base de donnée
         self.conn = pymysql.connect(host='localhost',
                             user=self.user,
                             password=self.mdp,

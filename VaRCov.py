@@ -9,7 +9,7 @@ class VaRCov():
 
     def CalculMatrice(self,Connexion,date1,date2):
         Liste=[]
-        requete1="Select distinct name from cac"
+        requete1="Select distinct name from helo;"
         curseur=Connexion.execute(requete1)
         ListeNoms=[]
         #on récupère la liste des noms des actifs
@@ -18,23 +18,23 @@ class VaRCov():
         
         for name in ListeNoms:
             ListeRendements=[]
-            requete2="select Rendements from cac where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
+            requete2="select Rendements from helo where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
             #on récupère la liste des Rendements de chaque actif
             curseur2=Connexion.execute(requete2)    
             for row in curseur2:
                 ListeRendements.append(row['Rendements'])
             Liste.append(ListeRendements)
-        print(type(Liste))
-        print(Liste)
+        #print(type(Liste))
+        #print(Liste)
         matrix=np.cov(Liste,bias=True)
-        print(matrix)
+        #print(matrix)
         self.matrice=matrix
 
 
 
 if __name__=="__main__":
     mat = VaRCov([]) 
-    connection = Connexion('pi2','root','root')
+    connection = Connexion('cac','root','Jhanamal0004@')
     connection.initialisation()
     mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
     connection.close_connection()
