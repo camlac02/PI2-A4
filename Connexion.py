@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 17 13:00:10 2022
+
+@author: PC
+"""
+
 import pymysql.cursors  
 
 class Connexion():
@@ -9,10 +16,9 @@ class Connexion():
         self.conn = None
         self.cur = None
 
+
     def initialisation(self):
-
         #La fonction ouvre la connexion avec la base de donnée
-
         self.conn = pymysql.connect(host='localhost',
                             user=self.user,
                             password=self.mdp,
@@ -22,16 +28,14 @@ class Connexion():
 
 
     def execute(self,requete):
-
         #La fonction prend en argument une requete SQL sous forme de chaine de caractère
-        #Et retourne le curseur qui permet d'acceder au résultat de la requete
+        #Et retourne le curseur qui permet d'acceder au résultat de la requete     
         self.cur.execute(requete)
         return self.cur
 
-    def close_connection(self):
-            
-        #La fonction ferme la connexion avec la Base de donnés
 
+    def close_connection(self):    
+        #La fonction ferme la connexion avec la Base de donnés
         self.cur.close()
         self.conn.close()
 	
