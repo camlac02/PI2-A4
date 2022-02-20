@@ -5,6 +5,7 @@ from Actifs import Actifs
 from Portefeuille import Portefeuille
 from Population import Population
 from pandas import DataFrame
+from AlgoG import AlgoG
 import pandas
 import csv
 if __name__=="__main__":
@@ -43,15 +44,20 @@ if __name__=="__main__":
     #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
 
     print(pop.__repr__())
+    Generation_max = 5
+    
+    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest)
+
+    #print('\nPortefeuille final :\n'+algoG.__repr__())
 
     #affichage liste des rendements moyens sur une periode par actif
     #pop.MoyenneRendements(connection,"2017-11-09")
 
-    
+    '''
     pop.sort_population()
     print(pop.__repr__())
     
-    Generation_max = 5
+    
 
     for i in range(Generation_max):
         
@@ -59,6 +65,7 @@ if __name__=="__main__":
         pop = Population(Population.nouvelle_population(pop,list_asset_with_value,max_invest))
         pop.sort_population()
 
-        print(pop.__repr__())
+        print(pop.__repr__())'''
+        
 
     connection.close_connection()

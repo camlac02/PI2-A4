@@ -22,6 +22,8 @@ class Population() :
         return self
     
     #Calcul des rendements moyens entre 2 dates
+    
+    '''
 
      #Tri les portefeuils d'une population en fonction de leurs scores
     def sort_population(self):
@@ -68,6 +70,7 @@ class Population() :
             new_list_portefeuille[i].RatioSharpe()
 
         return new_list_portefeuille 
+        '''
 
     def __repr__(self):
         return "{0}".format(self.list_portefeuille)

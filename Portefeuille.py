@@ -120,7 +120,7 @@ class Portefeuille():
         self.rendement = SommePF-1
         
     def RatioSharpe(self):
-        ratio = self.rendement/self.volatilite
+        ratio = (self.rendement)/(self.volatilite)
         self.score = ratio
     
     def mutation(self,MaxInvest):
