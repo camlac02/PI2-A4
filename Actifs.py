@@ -75,8 +75,6 @@ class Actifs():
         for row in curseur2:
             Liste.append([row['Rendements'],row['value']])
         self.ListeRendementsValeurs=Liste
-        print(Liste)
-            #Liste.append(moyenne)
         #print(Liste)
 
     def Rendement_Actif(self,connexion):
