@@ -127,6 +127,19 @@ class Portefeuille():
     def RatioSharpe(self):
         ratio = self.rendement/self.volatilite
         self.score = ratio
+        
+    def contrainte(portefeuille):
+        connexion = Connexion('CAC40','root','Petruluigi0405@!')
+        contrainte_limite = 0
+        for i in self:
+            contrainte_limite += i.rendements * i.nb_shares
+        contrainte_limite = (contrainte_limite - 1)**2
+        for i in self.liste_Actifs:
+            requete = "Select rendements from CAC40 where noms ='"+ i.noms +"';"
+            rendements_actif = connexion.execute(requete)
+            for row in self.liste_Actifs:
+                contrainte_limite += max(0,row['rendements']-1)**2 +  max(0,row['rendements'])**2
+        return contrainte_limite
     
     def CAGR_pf(self, liste_Actif, date1, date2):
         cagr_pf = 0
