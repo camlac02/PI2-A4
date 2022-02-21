@@ -128,7 +128,7 @@ class Portefeuille():
         ratio = self.rendement/self.volatilite
         self.score = ratio
         
-    def contrainte(portefeuille):
+    def Contrainte(portefeuille):
         connexion = Connexion('CAC40','root','Petruluigi0405@!')
         contrainte_limite = 0
         for i in self:
