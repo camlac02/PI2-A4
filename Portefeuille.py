@@ -88,8 +88,9 @@ class Portefeuille():
         while (self.liste_Actifs[r].nb_shares == 0):
             r = random.randrange(0,len(self.liste_Actifs))
 
+        
         # retire la valeur de l'actif au portefeuille
-        self.valeur -= MaxInvest
+        MaxInvest -= self.liste_Actifs[r].valeur * self.liste_Actifs[r].nb_shares
         self.liste_Actifs[r].nb_shares = 0
         print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
 
