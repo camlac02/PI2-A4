@@ -124,18 +124,20 @@ class Portefeuille():
         self.score = ratio
     
     def mutation(self,MaxInvest):
+        
+        liste_Actif = copy.deepcopy(self.liste_Actifs)
     
-        r = random.randrange(0,len(self.liste_Actifs))
-        while (self.liste_Actifs[r].nb_shares == 0):
-            r = random.randrange(0,len(self.liste_Actifs))
+        r = random.randrange(0,len(liste_Actif))
+        while (liste_Actif[r].nb_shares == 0):
+            r = random.randrange(0,len(liste_Actif))
 
+        MaxInvest-=liste_Actif[r].valeur*liste_Actif[r].nb_shares
         # retire la valeur de l'actif au portefeuille
-        self.valeur -= MaxInvest
-        self.liste_Actifs[r].nb_shares = 0
-        print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
+        liste_Actif[r].nb_shares = 0
+        print("Nom de l'action Mutée : "+liste_Actif[r].nom)
 
-        prix_min = Portefeuille.plus_petit_prix(self.liste_Actifs) 
-        action = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
+        prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
+        action = list(range(len(liste_Actif))) # liste des index de tous les actifs du portefeuille   
 
         action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
 
@@ -145,15 +147,21 @@ class Portefeuille():
             choix_action = random.choice(action)
             action.remove(choix_action) 
 
-            max_nb = MaxInvest//(self.liste_Actifs[choix_action].valeur)
+            max_nb = MaxInvest//(liste_Actif[choix_action].valeur)
 
             rnd = random.randint(0,max_nb)
-            self.liste_Actifs[choix_action].nb_shares = rnd
+            liste_Actif[choix_action].nb_shares = rnd
             
-            valeur = self.liste_Actifs[choix_action].nb_shares*self.liste_Actifs[choix_action].valeur
+            valeur = liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
             MaxInvest = MaxInvest - valeur
 
-            self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+            #self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+        self.Valeur_Portefeuille(liste_Actif) #calule les poids
+        self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
+        self.VolPortefeuille(liste_Actif)
+        self.RendementsPF(liste_Actif)
+        self.RatioSharpe()
+        self.liste_Actifs = liste_Actif
 
         return self
         
