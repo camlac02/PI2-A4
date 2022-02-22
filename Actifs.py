@@ -2,13 +2,14 @@ from Connexion import Connexion
 import pandas
 from math import nan
 from django.http import request
-
+import numpy as np
 
 #Classe d'actifs
 
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares,rendement,poids,moyenneRendements):
+    #Attributs
+    def __init__(self, nom, valeur, volume, date,nb_shares,rendement,poids,ListeRendementsValeurs):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
@@ -16,8 +17,7 @@ class Actifs():
         self.nb_shares = nb_shares
         self.rendement = rendement
         self.poids=poids 
-        self.moyenneRendements=moyenneRendements
-        #self.volatilité = 0
+        self.ListeRendementsValeurs=ListeRendementsValeurs
 
     def creationActifs(connexion):
         #Fonction qui prend en argument la connexion avec la base de données
@@ -27,6 +27,7 @@ class Actifs():
         curseur = connexion.execute(requete)
         liste_Actifs = []
 
+        #On initialise tous les éléments de l'actifs créé
         for row in curseur:
             action = Actifs(row['Noms'],0,0,0,0,0,0,0)
             liste_Actifs.append(action)
@@ -35,11 +36,8 @@ class Actifs():
 
 
     def Valeur_Actifs(self, date1, date2, connection):
-        #Fonction  qui prend en arguments une liste d'actifs, la date du jour
-        #et la connexion avec la base de données
-        #La fonction retourne une liste d'actifs, chacun asocié à une liste contenant
-        #toutes les informations le concernant ('name', 'value' et 'volumnes') à la date du jour 
-        requete = "Select Valeurs,Volumes,Rendements from cac where Dates = '"+date1+"' and Noms = '"+str(self.nom)+"';"
+        #Sélection des valeurs, volumes, rendements que l'on associe aux attributs de l'actif
+        requete = "Select Valeurs,Volumes,Rendements from cac where date = '"+date1+"' and Noms = '"+str(self.nom)+"';"
         curseur = connection.execute(requete)
         row = curseur.fetchone()
 
@@ -47,46 +45,19 @@ class Actifs():
         self.volume = row['Volumes']
         self.date = date1
         self.rendement=row['Rendements']
+        #Initialisation du poids à 0 pour tous les actifs
         self.poids=0
-        self.MoyenneRendements(date1,date2,connection)
+        #Utilisation de la fonction RendementsPourPF
+        self.RendementsPourPF(date1,date2,connection)
         return self
     
-    
-    def __repr__(self):
-        #return "Nom : {0}, nbr d'action : {1}, r : {2};\n".format(self.nom,self.nb_shares,self.rendement)
-        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nPoids : {4}\nRendementmoyen : {5}".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids,self.moyenneRendements)
-
-
-    def MoyenneRendements(self,date1,date2,connection):
-        Liste=[]
-        requete1="Select distinct Noms from cac;"
-        curseur=connection.execute(requete1)
-        ListeNoms=[]
-        #on récupère la liste des noms des actifs
-        for row in curseur:
-            ListeNoms.append(row['Noms'])
-        for name in ListeNoms:
-            somme=0
-            requete2="select Rendements from cac where Noms ='"+name+"' and  Dates between '"+date1+"' and '"+date2+"';"
-            #on récupère la liste des Rendements de chaque actif
-            curseur2=connection.execute(requete2)    
-            nbrow=0
-            for row in curseur2:
-                somme+=(row['Rendements'])
-                nbrow+=1
-            moyenne=round(somme,6)
-            if(self.nom==name):
-                self.moyenneRendements=moyenne
-            #Liste.append(moyenne)
-        #print(Liste)
-
+    #Fonction qui renvoie le rendement de l'actif
     def Rendement_Actif(self,connexion):
-
-        # Retourne une liste de tuple (date,rendement en %) d'un actif
-        requete1 = "Select Valeurs, Dates from cac where Noms = '"+self.nom+"';"
+        #Retourne une liste de tuple (date,rendement en %) d'un actif
+        requete1 = "Select Valeurs, date from cac where Noms = '"+self.nom+"';"
         curseur = connexion.execute(requete1)
         valeurs_precedente = 0 
-  
+        #On parcourt les actifs et on associe aux rendements la valeur a laquelle on retranche la valeur précédente 
         for row in curseur:
             if valeurs_precedente == 0:
                 self.rendement = 0
@@ -96,3 +67,19 @@ class Actifs():
             valeurs_precedente = row['Valeurs']
 
         return self
+
+    #Fonction qui créé une liste de rendements et valeurs entre 2 dates 
+    def RendementsPourPF(self,date1,date2,connection):
+        Liste=[]
+        requete2="select Rendements,Valeurs from cac where Noms ='"+str(self.nom)+"' and date between '"+date1+"' and '"+date2+"';"
+        #On récupère la liste des Rendements de chaque actif
+        curseur2=connection.execute(requete2)    
+        for row in curseur2:
+            Liste.append([row['Rendements'],row['Valeurs']])
+        self.ListeRendementsValeurs=Liste
+        #print(Liste)
+    
+
+    def __repr__(self):
+        #return "Nom : {0}, nbr d'action : {1}, r : {2};\n".format(self.nom,self.nb_shares,self.rendement)
+        return "Nom : {0}, Valeur : {1}, Nbr d'Actions : {2}, \nDate : {3}\nPoids : {4}".format(self.nom,self.valeur, self.nb_shares, self.date,self.poids)
