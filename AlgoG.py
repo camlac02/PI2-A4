@@ -32,6 +32,7 @@ class AlgoG() :
         Pourcentage_garder = 0.5
         new_list_portefeuille = []
 
+        # Ajout du portefeuille avec le meilleur score dans la nouvelle liste de portefeuilles
         new_list_portefeuille.append(pop_precedente.list_portefeuille[0])
 
         for i in range(1,len(pop_precedente.list_portefeuille)):
@@ -39,12 +40,12 @@ class AlgoG() :
             if i < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
 
                 rnd = round(random.uniform(1,2))
-
+                #Ajout de portefeuilles obtenus par mutations et croisements
                 if rnd == 1:
                     new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
                 if rnd == 2: 
                     new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
-                    #new_list_portefeuille.append(pop_precedente.crossover(MaxInvest)
+                    #new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
             else :
                 new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest))
 
