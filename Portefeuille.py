@@ -1,15 +1,21 @@
 #Classe Portefeuille
 from Actifs import Actifs
 import random
-
+from VaRCov import VaRCov
+from Connexion import Connexion
+from Fitness import fitness
+import math
+import numpy as np
 #pour copier la liste d'actif et pas faire de doublons
 from copy import deepcopy
 
 class Portefeuille():
 
-    def __init__(self, liste_Actifs, valeur, score):
+    def __init__(self, liste_Actifs, valeur, volatilite, rendement, score):
         self.liste_Actifs = liste_Actifs
         self.valeur = valeur
+        self.volatilite = volatilite
+        self.rendement = rendement
         self.score = score
 
 
@@ -20,10 +26,6 @@ class Portefeuille():
             if asset.valeur < min:
                 min = asset.valeur
         return min 
-
-    def score_portefeuille(self):
-        self.score = round(random.random(),4)
-        return self
 
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti):
@@ -60,7 +62,14 @@ class Portefeuille():
 
         self.liste_Actifs = liste_Actif
         self.Valeur_Portefeuille()
-        self.score_portefeuille() #AJOUTE SCORE AU PORTEFEUILLE
+        self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
+        self.VolPortefeuille( liste_Actif)
+        self.RendementsPF()
+
+        fit = fitness(self, 0) 
+        self.score = fit.RatioSharpe()
+
+
         #self.Poid_dans_portefeuille()
         return self
 
@@ -77,9 +86,45 @@ class Portefeuille():
         return self
 
 
+    def VolPortefeuille(self,listeActif):
+        Listepoids=[]
+        for i in listeActif:
+            Listepoids.append(i.poids)
+        Listepoids=np.array(Listepoids)
+        #print(Listepoids)
+        mat = VaRCov([]) 
+        connection = Connexion('pi2','root','Leo20-Esilv')
+        connection.initialisation()
+        mat.CalculMatrice(connection,"2016-11-09","2017-11-09")
+        matrice = mat.matrice
+        #print('matrice : \n',matrice)
+        connection.close_connection()
+        vol = math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
+        print("vol   ",vol)
+        self.volatilite=vol
+    
+    def RendementsPF(self):
+        
+        SommePF=1
+        for i in range(0,len(self.liste_Actifs[0].ListeRendementsValeurs)-1):     
+            RendementPF = 0 
+
+            for actif in self.liste_Actifs:
+
+                RendementPF += actif.ListeRendementsValeurs[i][0]*actif.nb_shares*actif.ListeRendementsValeurs[i][1]
+                RendementPF /= self.valeur
+
+            SommePF *= (1+RendementPF)
+        
+        self.rendement = SommePF-1
+        
+    # def RatioSharpe(self):
+    #     ratio = (self.rendement)/(self.volatilite)
+    #     self.score = ratio
+
     def __repr__(self):
         #return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
-        return "Valeur du Portefeuille : {0}\nScore du portefeuille :  {1}\n".format(self.valeur,self.score) 
+        return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
 
 
     def mutation(self,MaxInvest):
@@ -88,7 +133,6 @@ class Portefeuille():
         while (self.liste_Actifs[r].nb_shares == 0):
             r = random.randrange(0,len(self.liste_Actifs))
 
-        
         # retire la valeur de l'actif au portefeuille
         MaxInvest -= self.liste_Actifs[r].valeur * self.liste_Actifs[r].nb_shares
         self.liste_Actifs[r].nb_shares = 0
@@ -122,7 +166,7 @@ class Portefeuille():
     def Poid_dans_portefeuille(self):
         for i in range(len(self.liste_Actifs)):
             poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
-            self.liste_Actifs[i].poids  = round(poids / self.Valeur_Portefeuille()*100,2)
+            self.liste_Actifs[i].poids  = round(poids / self.valeur,5)
         return self
     ####################################################################################################################################
     

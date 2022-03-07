@@ -11,8 +11,7 @@ class Population() :
     def creation_population(self, list_asset, MaxInvest, nb_portefeuille):
         list_portefeuille = []
         for i in range(nb_portefeuille):
-            p = Portefeuille(list_asset,0,0).Creation_Portefeuille(MaxInvest)
-            p.score_portefeuille()
+            p = Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest)
             list_portefeuille.append(p)
         self.list_portefeuille = list_portefeuille
         return self
@@ -64,7 +63,7 @@ class Population() :
     #     return new_list_portefeuille 
 
     def __repr__(self):
-        return "{0}".format(self.list_portefeuille)
+        return "\nPopulation : {0}".format(self.list_portefeuille)
 
 
 

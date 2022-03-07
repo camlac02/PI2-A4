@@ -45,16 +45,31 @@ class AlgoG() :
                     new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
                     #new_list_portefeuille.append(pop_precedente.crossover(MaxInvest)
             else :
-                new_list_portefeuille.append(Portefeuille(list_asset,0,0).Creation_Portefeuille(MaxInvest))
-
-            new_list_portefeuille[i].score_portefeuille() #Marche pas
+                new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest))
 
         return new_list_portefeuille 
     
     
 
-    def crossover(self):
-    
+    def crossover(self, max_invest):
+        alpha=0.25*max_invest #pourcentage d'échnage des portefeuilles lors du crossover  (/!\ Peut etre le passé en parametre pour le client)
+        list_trie=self.sort_population
+        parent1=list_trie[0]
+        parent2=list_trie[-1]
+        mut1=Portefeuille([],0,0,0,0)
+        mut2=Portefeuille([],0,0,0,0)
+        while mut1.Valeur_Portefeuille <alpha: #Trouver une solution pour tomber exactement sur le max invest, ce faire une marge sur le pourcentage effectué pour ne pas dépasser ?
+            mut1.liste_Actifs.append(parent1.liste_Actifs.pop())
+        while mut2.Valeur_Portefeuille <alpha:
+            mut2.liste_Actifs.append(parent2.liste_Actifs.pop())
+        new_parent1=parent1+mut2
+        new_parent2=parent2+mut1
+        #remplacement des anciens portefeuilles par les nouveaux(ou seulement ajout des nouveaux si on le souhaite)
+        list_trie.pop()
+        list_trie.pop(0)
+        list_trie.append(new_parent1)
+        list_trie.append(new_parent2)
+        self=list_trie
         return self
 
 
@@ -74,7 +89,7 @@ class AlgoG() :
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest))
             self.sort_population()
 
-            print(self.pop.__repr__())
+            print('\n',self.pop.__repr__())
 
         return self.pop.list_portefeuille[0]
 
