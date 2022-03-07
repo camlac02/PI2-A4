@@ -100,30 +100,22 @@ class Portefeuille():
         #print('matrice : \n',matrice)
         connection.close_connection()
         vol = math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
-        print("vol   ",vol)
+        print("vol",vol)
         self.volatilite=vol
     
     def RendementsPF(self):
-        
         SommePF=1
         for i in range(0,len(self.liste_Actifs[0].ListeRendementsValeurs)-1):     
             RendementPF = 0 
 
             for actif in self.liste_Actifs:
-
                 RendementPF += actif.ListeRendementsValeurs[i][0]*actif.nb_shares*actif.ListeRendementsValeurs[i][1]
                 RendementPF /= self.valeur
+            SommePF *= (1+RendementPF)   
 
-            SommePF *= (1+RendementPF)
-        
         self.rendement = SommePF-1
         
-    # def RatioSharpe(self):
-    #     ratio = (self.rendement)/(self.volatilite)
-    #     self.score = ratio
-
     def __repr__(self):
-        #return "{0}\nValeur du portefeuil : {2}\nScore du portefeuille : {1}\n\n".format(self.liste_Actifs,self.score,self.valeur) 
         return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
 
 

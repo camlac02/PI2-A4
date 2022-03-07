@@ -39,9 +39,9 @@ class VaRCov():
         self.matrice=matrix
         return self
 
-if __name__=="__main__":
-    mat = VaRCov([]) 
-    connection = Connexion('pi2','root','Leo20-Esilv')
-    connection.initialisation()
-    mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
-    connection.close_connection()
+# if __name__=="__main__":
+#     mat = VaRCov([]) 
+#     connection = Connexion('pi2','root','Leo20-Esilv')
+#     connection.initialisation()
+#     mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+#     connection.close_connection()

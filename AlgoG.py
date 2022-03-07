@@ -48,8 +48,27 @@ class AlgoG() :
                 new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest))
 
         return new_list_portefeuille 
-    
-    
+
+    # fonction de mutation de portefeuille 
+    def mutation_portefeuille(self,index,MaxInvest):
+
+        self.pop.list_portefeuille[index].mutation(MaxInvest)  
+        return self
+
+    # fonction executant l'algorithme genetique
+    def algorihtme_genetique(self, liste_assets, max_invest):
+
+        for i in range(self.generation_max):
+
+            print('\nGeneration : '+str(i)+'\n')
+            self.pop = Population(self.nouvelle_population(liste_assets,max_invest))
+            self.sort_population()
+
+            print('\n',self.pop.__repr__())
+
+        return self.pop.list_portefeuille[0]
+
+##################################################################################################################### A REGARDER
 
     def crossover(self, max_invest):
         alpha=0.25*max_invest #pourcentage d'échnage des portefeuilles lors du crossover  (/!\ Peut etre le passé en parametre pour le client)
@@ -71,27 +90,5 @@ class AlgoG() :
         list_trie.append(new_parent2)
         self=list_trie
         return self
-
-
-
-    # fonction de mutation de portefeuille 
-    def mutation_portefeuille(self,index,MaxInvest):
-
-        self.pop.list_portefeuille[index].mutation(MaxInvest)  
-        return self
-
-    # fonction executant l'algorithme genetique
-    def algorihtme_genetique(self, liste_assets, max_invest):
-
-        for i in range(self.generation_max):
-
-            print('\nGeneration : '+str(i)+'\n')
-            self.pop = Population(self.nouvelle_population(liste_assets,max_invest))
-            self.sort_population()
-
-            print('\n',self.pop.__repr__())
-
-        return self.pop.list_portefeuille[0]
-
     
 

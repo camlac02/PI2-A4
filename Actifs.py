@@ -48,15 +48,6 @@ class Actifs():
         return self
 
     def RendementsPourPF(self,date1,date2,connection):
-        '''
-        requete1="Select distinct name from helo;"
-        curseur=connection.execute(requete1)
-        ListeNoms=[]
-        #on récupère la liste des noms des actifs
-        for row in curseur:
-            ListeNoms.append(row['name'])
-        Nbname=1
-        for name in ListeNoms:'''
         Liste=[]
         requete2="select Rendements,value from cac where name='"+str(self.nom)+"' and date between '"+date1+"' and '"+date2+"';"
         #on récupère la liste des Rendements de chaque actif
@@ -84,10 +75,7 @@ class Actifs():
             nbrow+=1
         moyenne=round(somme,6)
         if(self.nom==name):
-            self.moyenneRendements=moyenne
-        #Liste.append(moyenne)
-    #print(Liste)
-
+            self.moyenneRendements = moyenne
 
 
     def __repr__(self):
