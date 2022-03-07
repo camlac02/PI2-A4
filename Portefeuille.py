@@ -63,8 +63,8 @@ class Portefeuille():
         self.liste_Actifs = liste_Actif
         self.Valeur_Portefeuille()
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
-        self.VolPortefeuille( liste_Actif)
-        self.RendementsPF()
+        self.VolPortefeuille(liste_Actif)
+        self.RendementsPF(liste_Actif)
 
         fit = fitness(self, 0) 
         self.score = fit.RatioSharpe()
@@ -101,12 +101,12 @@ class Portefeuille():
         print("vol",vol)
         self.volatilite=vol
     
-    def RendementsPF(self):
+    def RendementsPF(self,liste_Actif):
         SommePF=1
-        for i in range(0,len(self.liste_Actifs[0].ListeRendementsValeurs)-1):     
+        for i in range(0,len(liste_Actif[0].ListeRendementsValeurs)-1):     
             RendementPF = 0 
 
-            for actif in self.liste_Actifs:
+            for actif in liste_Actif:
                 RendementPF += actif.ListeRendementsValeurs[i][0]*actif.nb_shares*actif.ListeRendementsValeurs[i][1]
                 RendementPF /= self.valeur
             SommePF *= (1+RendementPF)   
@@ -118,19 +118,20 @@ class Portefeuille():
 
 
     def mutation(self,MaxInvest):
+        
+        liste_Actif = deepcopy(self.liste_Actifs)
 
-        r = random.randrange(0,len(self.liste_Actifs))
-        while (self.liste_Actifs[r].nb_shares == 0):
-            r = random.randrange(0,len(self.liste_Actifs))
+        r = random.randrange(0,len(liste_Actif))
+        while (liste_Actif[r].nb_shares == 0):
+            r = random.randrange(0,len(liste_Actif))
 
         # retire la valeur de l'actif au portefeuille
-        MaxInvest -= self.liste_Actifs[r].valeur * self.liste_Actifs[r].nb_shares
-        #MaxInvest = self.liste_Actifs[r].valeur * self.liste_Actifs[r].nb_shares
-        self.liste_Actifs[r].nb_shares = 0
-        print("Nom de l'action Mutée : "+self.liste_Actifs[r].nom)
+        MaxInvest -= liste_Actif[r].valeur * liste_Actif[r].nb_shares
+        liste_Actif[r].nb_shares = 0
+        print("Nom de l'action Mutée : "+ liste_Actif[r].nom)
 
-        prix_min = Portefeuille.plus_petit_prix(self.liste_Actifs) 
-        action = list(range(len(self.liste_Actifs))) # liste des index de tous les actifs du portefeuille   
+        prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
+        action = list(range(len(liste_Actif))) # liste des index de tous les actifs du portefeuille   
 
         action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
 
@@ -140,15 +141,27 @@ class Portefeuille():
             choix_action = random.choice(action)
             action.remove(choix_action) 
 
-            max_nb = MaxInvest//(self.liste_Actifs[choix_action].valeur)
+            max_nb = MaxInvest//(liste_Actif[choix_action].valeur)
 
             rnd = random.randint(0,max_nb)
-            self.liste_Actifs[choix_action].nb_shares = rnd
+            liste_Actif[choix_action].nb_shares = rnd
             
-            valeur = self.liste_Actifs[choix_action].nb_shares*self.liste_Actifs[choix_action].valeur
+            valeur = liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
             MaxInvest = MaxInvest - valeur
 
             self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+
+        self.liste_Actifs = liste_Actif
+
+        self.Valeur_Portefeuille()
+        self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
+        self.VolPortefeuille(liste_Actif)
+        self.RendementsPF(liste_Actif)
+
+        fit = fitness(self, 0) 
+        self.score = fit.RatioSharpe()
+
+
 
         return self
 

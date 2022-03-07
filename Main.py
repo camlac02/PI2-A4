@@ -17,7 +17,6 @@ if __name__=="__main__":
 
     #Valeur Max de l'investissement
     max_invest = 5000
-    rendement_attendu = 5/100
 
     #Nombre de portefeuilles par population
     nb_portefeuils = 4
@@ -40,7 +39,7 @@ if __name__=="__main__":
     
     Generation_max = 5
 
-    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,rendement_attendu)
+    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())
 
