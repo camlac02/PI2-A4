@@ -43,12 +43,12 @@ if __name__=="__main__":
     pop.Creation_Population(list_asset_with_value, max_invest,nb_portefeuils)#connection,date_test)
     #pop.Creation_Population(nb_portefeuils, max_invest,connection,date_test)
 
-    print(pop.__repr__())
+    #print(pop.__repr__())
     Generation_max = 5
     
     algoG=AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest)
 
-    print('\nPortefeuille final :\n'+algoG.__repr__())
+    #print('\nPortefeuille final :\n'+algoG.__repr__())
 
     #affichage liste des rendements moyens sur une periode par actif
     #pop.MoyenneRendements(connection,"2017-11-09")

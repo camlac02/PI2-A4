@@ -156,12 +156,15 @@ class Portefeuille():
             MaxInvest = MaxInvest - valeur
 
             #self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+        self.liste_Actifs = liste_Actif
         self.Valeur_Portefeuille(liste_Actif) #calule les poids
         self.Poid_dans_portefeuille(liste_Actif) # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
         self.RendementsPF(liste_Actif)
         self.RatioSharpe()
-        self.liste_Actifs = liste_Actif
+        self.score=0
+        
+        
 
         return self
         
