@@ -17,7 +17,7 @@ class AlgoG() :
 
         for i in range(len(list_portefeuille)):
             for j in range(len(list_portefeuille)-1):
-                if(list_portefeuille[j].score < list_portefeuille[j+1].score):
+                if(list_portefeuille[j].score < list_portefeuille[j+1].score): 
                     score = list_portefeuille[j].score
                     list_portefeuille[j].score = list_portefeuille[j+1].score
                     list_portefeuille[j+1].score = score
@@ -56,15 +56,18 @@ class AlgoG() :
         return self
 
     # fonction executant l'algorithme genetique
-    def algorihtme_genetique(self, liste_assets, max_invest):
+    def algorihtme_genetique(self, liste_assets, max_invest,rendement_attendu):
+        generation = 0
+        self.pop.list_portefeuille[0].rendement = 0
 
-        for i in range(self.generation_max):
+        while generation < self.generation_max and rendement_attendu != self.pop.list_portefeuille[0].rendement :
 
-            print('\nGeneration : '+str(i)+'\n')
+            print('\nGeneration : '+str(generation)+'\n')
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest))
             self.sort_population()
 
             print('\n',self.pop.__repr__())
+            generation += 1
 
         return self.pop.list_portefeuille[0]
 
