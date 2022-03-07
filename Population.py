@@ -74,7 +74,6 @@ class Population() :
         list_trie.pop(0)
         list_trie.append(new_parent1)
         list_trie.append(new_parent2)
-        self=list_trie
         return self
 
 
