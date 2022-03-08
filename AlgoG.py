@@ -40,7 +40,8 @@ class AlgoG() :
                 rnd = round(random.uniform(1,2))
 
                 if rnd == 1:
-                    new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
+                    #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
+                    new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
                 if rnd == 2: 
                     #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
                     new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
@@ -58,7 +59,6 @@ class AlgoG() :
     # fonction executant l'algorithme genetique
     def algorihtme_genetique(self, liste_assets, max_invest):
         generation = 0
-        self.pop.list_portefeuille[0].rendement = 0
 
         while generation < self.generation_max :
 

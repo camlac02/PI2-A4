@@ -66,8 +66,7 @@ class Portefeuille():
         self.VolPortefeuille(liste_Actif)
         self.RendementsPF(liste_Actif)
 
-        fit = fitness(self, 0) 
-        self.score = fit.RatioSharpe()
+        self.score = fitness(self, 0).RatioSharpe()
 
         return self
 
@@ -76,7 +75,7 @@ class Portefeuille():
     def Valeur_Portefeuille(self):
         #Fonction qui prend en argument un portefeuille et qui calcule
         #la valeur associée à ce portefeuille 
-        self.liste_Actifs
+        self.valeur = 0
         for i in range(len( self.liste_Actifs)):
             #valeur=valeur asset*poids
             self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
@@ -85,23 +84,36 @@ class Portefeuille():
 
 
     def VolPortefeuille(self,listeActif):
+        self.volatilite = 0
         Listepoids=[]
-        for i in listeActif:
-            Listepoids.append(i.poids)
+        for actif in self.liste_Actifs:
+            Listepoids.append(actif.poids)
         Listepoids=np.array(Listepoids)
         #print(Listepoids)
         mat = VaRCov([]) 
         connection = Connexion('pi2','root','Leo20-Esilv')
         connection.initialisation()
-        mat.CalculMatrice(connection,"2016-11-09","2017-11-09")
+        mat.CalculMatrice(connection,"2017-01-05","2017-12-29")
         matrice = mat.matrice
         #print('matrice : \n',matrice)
         connection.close_connection()
+        print(matrice.shape)
+        print(Listepoids.shape)
         vol = math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
         print("vol",vol)
         self.volatilite=vol
+        return self
     
+    # def RendementsPF(self,liste_Actif):
+    #     self.rendement = 0
+    #     liste = []
+    #     for i in range(0,len(liste_Actif[1].ListeRendementsValeurs)-1):
+    #         liste.append(np.prod([x+1 for x in liste_Actif[i].ListeRendementsValeurs])**(1/len(liste_Actif[i].ListeRendementsValeurs))-1)
+    #     self.rendement = (sum([a*b for a,b in zip([liste_Actif[i].nb_shares for i in range(0,len(liste_Actif[1].ListeRendementsValeurs))], liste)]))/100
+    #     return self
+
     def RendementsPF(self,liste_Actif):
+        self.rendement = 0
         SommePF=1
         for i in range(0,len(liste_Actif[0].ListeRendementsValeurs)-1):     
             RendementPF = 0 
@@ -109,25 +121,33 @@ class Portefeuille():
             for actif in liste_Actif:
                 RendementPF += actif.ListeRendementsValeurs[i][0]*actif.nb_shares*actif.ListeRendementsValeurs[i][1]
                 RendementPF /= self.valeur
-            SommePF *= (1+RendementPF)   
+
+            SommePF *= (1+RendementPF)
 
         self.rendement = SommePF-1
-        
-    def __repr__(self):
-        return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
 
+        return self
+        
+
+    def __repr__(self):
+        return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille (Ratio Sharpe) :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
 
     def mutation(self,MaxInvest):
-        
+
         liste_Actif = deepcopy(self.liste_Actifs)
+        self.score = 0
+        self.rendement = 0
+        self.volatilite = 0
+        valeur_totale = deepcopy(self.valeur)
 
         r = random.randrange(0,len(liste_Actif))
         while (liste_Actif[r].nb_shares == 0):
             r = random.randrange(0,len(liste_Actif))
 
         # retire la valeur de l'actif au portefeuille
-        MaxInvest -= liste_Actif[r].valeur * liste_Actif[r].nb_shares
+        MaxInvest = liste_Actif[r].valeur * liste_Actif[r].nb_shares + MaxInvest - valeur_totale 
         liste_Actif[r].nb_shares = 0
+        valeur_totale = valeur_totale - liste_Actif[r].valeur * liste_Actif[r].nb_shares
         print("Nom de l'action Mutée : "+ liste_Actif[r].nom)
 
         prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
@@ -136,7 +156,7 @@ class Portefeuille():
         action.remove(r) #On retire l'actif qu'on vient de retirer du portefeuille de la liste
 
         #On realise la même manipulation que pour creation_portefeuille
-        while (MaxInvest > prix_min and len(action) !=0 ):
+        while (MaxInvest > prix_min and len(action) !=0):
 
             choix_action = random.choice(action)
             action.remove(choix_action) 
@@ -149,26 +169,27 @@ class Portefeuille():
             valeur = liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
             MaxInvest = MaxInvest - valeur
 
-            self.valeur += valeur #On ajoute la valeur des actions a la valeur du portefeuille
+            valeur_totale += valeur #On ajoute la valeur des actions a la valeur du portefeuille
 
         self.liste_Actifs = liste_Actif
 
-        self.Valeur_Portefeuille()
+        self.valeur = valeur_totale 
+
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
         self.RendementsPF(liste_Actif)
 
-        fit = fitness(self, 0) 
-        self.score = fit.RatioSharpe()
-
-
+        self.score = fitness(self, 0).RatioSharpe()
+        
 
         return self
 
     #################################################################################################################################
     #Defini le poid qu'a l'action dans le portefeuille
     def Poid_dans_portefeuille(self):
+
         for i in range(len(self.liste_Actifs)):
+            self.liste_Actifs[i].poids = 0
             poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
             self.liste_Actifs[i].poids  = round(poids / self.valeur,5)
         return self

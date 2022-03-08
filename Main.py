@@ -12,11 +12,11 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_1 = "2016-07-01"
-    date_2 = "2016-07-15"
+    date_1 = "2017-01-05"
+    date_2 = "2017-12-29"
 
     #Valeur Max de l'investissement
-    max_invest = 5000
+    max_invest = 300000
 
     #Nombre de portefeuilles par population
     nb_portefeuils = 4

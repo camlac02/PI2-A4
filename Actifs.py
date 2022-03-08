@@ -53,6 +53,7 @@ class Actifs():
         #on récupère la liste des Rendements de chaque actif
         curseur2=connection.execute(requete2)    
         for row in curseur2:
+            #Liste.append(row['Rendements'])
             Liste.append([row['Rendements'],row['value']])
         self.ListeRendementsValeurs = Liste
 

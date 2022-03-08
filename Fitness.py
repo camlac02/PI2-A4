@@ -6,4 +6,5 @@ class fitness():
 
     def RatioSharpe(self):
         ratio = (self.portefeuille.rendement)/(self.portefeuille.volatilite)
+        self.sharpe = ratio
         return ratio
