@@ -61,7 +61,7 @@ class Portefeuille():
             #MaxInvesti = MaxInvesti - int(self.liste_nbr_shares[choice_asset])*self.liste_Actifs[choice_asset].valeur
 
         self.liste_Actifs = liste_Actif
-        self.Valeur_Portefeuille()
+        self.Valeur_Portefeuille(liste_Actif)
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
         self.RendementsPF(liste_Actif)
@@ -72,13 +72,13 @@ class Portefeuille():
 
 
     # Calcul la valeur d'un portefeuille
-    def Valeur_Portefeuille(self):
+    def Valeur_Portefeuille(self,liste_Actif):
         #Fonction qui prend en argument un portefeuille et qui calcule
         #la valeur associée à ce portefeuille 
         self.valeur = 0
-        for i in range(len( self.liste_Actifs)):
+        for i in range(len(liste_Actif)):
             #valeur=valeur asset*poids
-            self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
+            self.valeur = self.valeur +  liste_Actif[i].valeur*int( liste_Actif[i].nb_shares)
             #self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_nbr_shares [i])
         return self
 

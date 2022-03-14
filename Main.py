@@ -21,7 +21,7 @@ if __name__=="__main__":
     max_invest = 300000
 
     #Nombre de portefeuilles par population
-    nb_portefeuils = 5
+    nb_portefeuils = 10
     
     list_asset_with_value = []
 
@@ -41,8 +41,8 @@ if __name__=="__main__":
     
     Generation_max = 5
 
-    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest)
+    #algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest)
 
-    print('\nPortefeuille final :\n'+algoG.__repr__())
+    #print('\nPortefeuille final :\n'+algoG.__repr__())
 
     connection.close_connection()

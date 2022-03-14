@@ -49,21 +49,21 @@ class AlgoG() :
                 rnd = round(random.uniform(1,2))
 
                 if rnd == 1:
-                    #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
-                    pop = pop_precedente.crossover(MaxInvest,count)
-                    # print(pop[0].liste_Actifs)
-                    # print(pop[1].liste_Actifs)
-                    new_list_portefeuille.append(pop[0])
-                    new_list_portefeuille.append(pop[1])
-                    count +=1
+                    new_list_portefeuille.append(pop_precedente.list_portefeuille[count].mutation(MaxInvest))
+                    # pop = pop_precedente.crossover(MaxInvest,count)
+                    # # print(pop[0].liste_Actifs)
+                    # # print(pop[1].liste_Actifs)
+                    # new_list_portefeuille.append(pop[0])
+                    # new_list_portefeuille.append(pop[1])
+                    #count +=1
                 if rnd == 2: 
-                    #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
-                    pop = pop_precedente.crossover(MaxInvest,count)
-                    # print(pop[0].liste_Actifs)
-                    # print(pop[1].liste_Actifs)
-                    new_list_portefeuille.append(pop[0])
-                    new_list_portefeuille.append(pop[1])
-                    count +=1
+                    new_list_portefeuille.append(pop_precedente.list_portefeuille[count].mutation(MaxInvest))
+                    # pop = pop_precedente.crossover(MaxInvest,count)
+                    # # print(pop[0].liste_Actifs)
+                    # # print(pop[1].liste_Actifs)
+                    # new_list_portefeuille.append(pop[0])
+                    # new_list_portefeuille.append(pop[1])
+                    #count +=1
             else :
                 new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest))
             count+=1
