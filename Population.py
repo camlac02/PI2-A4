@@ -4,6 +4,7 @@ from Portefeuille import Portefeuille
 from Actifs import Actifs
 import random
 from Fitness import fitness
+from copy import deepcopy
 
 class Population() :
 
@@ -22,69 +23,114 @@ class Population() :
         return "\nPopulation : {0}".format(self.list_portefeuille)
 
 
-    def crossover(self, max_invest):
-        alpha=0.25*max_invest #pourcentage d'échnage des portefeuilles lors du crossover  (/!\ Peut etre le passé en parametre pour le client)
-        list_trie = self.list_portefeuille
-        parent1 = list_trie[1]
-        parent2= list_trie[2]
-        mut1=Portefeuille([],0,0,0,0)
-        mut2=Portefeuille([],0,0,0,0)
-        while mut1.Valeur_Portefeuille().valeur < alpha: #Trouver une solution pour tomber exactement sur le max invest, ce faire une marge sur le pourcentage effectué pour ne pas dépasser ?
-            mut1.liste_Actifs.append(parent1.liste_Actifs.pop())
-        while mut2.Valeur_Portefeuille().valeur <alpha:
-            mut2.liste_Actifs.append(parent2.liste_Actifs.pop())
-
-        print(len(mut1.liste_Actifs))
-        print(len(parent1.liste_Actifs))
-        print(len(mut2.liste_Actifs))
-        print(len(parent2.liste_Actifs))
-
-        # new_parent1 = Portefeuille(parent1.liste_Actifs,0,0,0,0)
-        # new_parent2 = Portefeuille(parent2.liste_Actifs,0,0,0,0)
-
-        # for actif in mut2.liste_Actifs: 
-        #     for actif_parent in new_parent1.liste_Actifs:
-        #         if actif_parent.nom == actif.nom :
-        #             actif_parent.nb_shares += actif.nb_shares
-        #         else :
-        #             new_parent1.liste_Actifs.append(actif) 
+    def crossover(self, max_invest, i):
         
-        # for actif in mut1.liste_Actifs: 
-        #     for actif_parent in new_parent2.liste_Actifs:
-        #         if actif_parent.nom == actif.nom :
-        #             actif_parent.nb_shares += actif.nb_shares
-        #         else :
-        #             new_parent2.liste_Actifs.append(actif)     
+        print('debut crossover')
+        liste_portefeuille = deepcopy(self.list_portefeuille)
 
-        new_parent1 = Portefeuille(parent1.liste_Actifs + mut2.liste_Actifs,0,0,0,0)
-        new_parent2 = Portefeuille(parent2.liste_Actifs + mut1.liste_Actifs,0,0,0,0)
+        parent1 = deepcopy(liste_portefeuille[i])
+        parent1_actifs =  deepcopy(parent1.liste_Actifs)
 
-        print(len(new_parent1.liste_Actifs))
-        print(len(new_parent2.liste_Actifs))
+        parent2 = deepcopy(liste_portefeuille[i+1])
+        parent2_actifs = deepcopy(parent2.liste_Actifs)
 
-        #remplacement des anciens portefeuilles par les nouveaux(ou seulement ajout des nouveaux si on le souhaite)
-        list_trie.pop(2)
-        list_trie.pop(1)
-        list_trie.append(new_parent1)
-        list_trie.append(new_parent2)
-        self.list_portefeuille = list_trie
-        self.__repr__()
+        #On crée une liste avec tous les actifs de parent 1 ayant un nombre de shares > 0
+        list = []
+        for actif in parent1_actifs:
+            if actif.nb_shares != 0:
+                list.append(actif)
+        
+        #On selectionne la moitié de ces actifs et on les ajoute à une liste_1
+        #qui sera la liste des actifs qui seront ajouté à parent 2 
+        #val étant la valeur de ces actifs 
+        val = 0
+        list_1 = []
+        for i in range(len(list)//3):
+            val += list[-i].nb_shares * list[-i].valeur 
+            list_1.append(list[-i])
 
- 
-        liste_Actif = self.list_portefeuille[-1].liste_Actifs
-        self.list_portefeuille[-1].Valeur_Portefeuille()
-        self.list_portefeuille[-1].Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
-        self.list_portefeuille[-1].VolPortefeuille(liste_Actif)
-        self.list_portefeuille[-1].RendementsPF(liste_Actif)
-        fit = fitness(self.list_portefeuille[-1], 0) 
-        self.list_portefeuille[-1].score = fit.RatioSharpe()
 
-        liste_Actif = self.list_portefeuille[-2].liste_Actifs
-        self.list_portefeuille[-2].Valeur_Portefeuille()
-        self.list_portefeuille[-2].Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
-        self.list_portefeuille[-2].VolPortefeuille(liste_Actif)
-        self.list_portefeuille[-2].RendementsPF(liste_Actif)
-        fit = fitness(self.list_portefeuille[-2], 0) 
-        self.list_portefeuille[-2].score = fit.RatioSharpe()
+        #On crée la liste des actifs de parents 2 qui seront ajoutés à parent 1
+        list_2 = []
+        val_2 = 0
+        for actif in parent2_actifs :
+            if actif.nb_shares != 0:
+                if ((val_2 + actif.nb_shares * actif.valeur) < val):
+                    val_2 += actif.nb_shares * actif.valeur
+                    list_2.append(actif)
+                elif (val_2 < val):
+                    nb=0
+                    while nb < actif.nb_shares and val_2 < val:
+                        val_2 += actif.valeur
+                        nb+=1
+                    if nb != 0:
+                        actif.nb_shares = nb
+                    list_2.append(actif)
 
-        return self    
+        #On print la valeur des deux listes
+        #print('val ',val) 
+        #print('val_2 ',val_2) 
+
+        #On affiche les deux listes
+        #print('list 1 : \n',list_1)
+        #print('list 2 : \n',list_2)
+
+        #On ajoute les actifs de la liste 2 à parent 1
+        for i in range(len(parent1_actifs)):
+            for actif in list_2:
+                if actif.nom == parent1_actifs[i].nom:
+                    #print('Ajouté à parent 1 '+actif.nom, '  ', actif.nb_shares )
+                    parent1_actifs[i].nb_shares += deepcopy(actif.nb_shares)
+
+        l_1 = deepcopy(list_1)
+
+        #On remet à 0 le nombre de share des actifs selectionnés dans list_1 dans parent 1
+        for i in range(len(parent1_actifs)):
+            for actif in deepcopy(list_1):
+                if actif.nom == parent1_actifs[i].nom:
+                    parent1_actifs[i].nb_shares = 0
+
+        for i in range(len(parent2_actifs)):
+            for actif in deepcopy(list_2):
+                if actif.nom == parent2_actifs [i].nom:
+                    parent2_actifs [i].nb_shares = 0       
+
+        #print('parent 1 : \n',parent1_actifs)
+        #print('parent 2 : \n',parent2_actifs )
+
+        for i in range(len(parent2_actifs )):
+            for actif in l_1:
+                if actif.nom == parent2_actifs [i].nom:
+                    #print('Ajouté à parent 2 '+actif.nom, '  ', actif.nb_shares )
+                    parent2_actifs[i].nb_shares += deepcopy(actif.nb_shares) 
+
+        #print('parent 1 : \n',parent1_actifs)
+        #print('parent 2 : \n',parent2_actifs )
+
+        mut1=Portefeuille(parent1_actifs,0,0,0,0)
+        mut2=Portefeuille(parent2_actifs,0,0,0,0)
+
+        #print(len(mut1.liste_Actifs))
+        #print(len(mut2.liste_Actifs))
+
+        liste_Actif = mut1.liste_Actifs
+        mut1.Valeur_Portefeuille()
+        print(mut1.valeur)
+        mut1.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
+        mut1.VolPortefeuille(liste_Actif)
+        mut1.RendementsPF(liste_Actif)
+        fit = fitness(mut1, 0) 
+        mut1.score = fit.RatioSharpe()
+
+        liste_Actif = mut2.liste_Actifs
+        mut2.Valeur_Portefeuille()
+        print(mut2.valeur)
+        mut2.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
+        mut2.VolPortefeuille(liste_Actif)
+        mut2.RendementsPF(liste_Actif)
+        fit = fitness(mut2, 0) 
+        mut2.score = fit.RatioSharpe()
+
+        print('Fin du crossover')
+
+        return [mut1,mut2]   

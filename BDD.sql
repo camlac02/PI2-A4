@@ -1,17 +1,22 @@
-#drop table cac;
+drop table cac;
 
 create table cac
 (
-Dates DATETIME,
-Valeurs FLOAT,
-Volumes int,
-Noms varchar(6));
+date date,
+value float,
+volume int,
+name varchar(6),
+Rendements float);
 
+#'C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\'
+       
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/datacac.csv' 
+INTO TABLE cac 
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\r\n'
+Ignore 1 lines
+(@date,value,volume,name,Rendements)
+SET date = STR_TO_DATE(@date, '%d/%m/%Y');
 
-#LOAD DATA INFILE 'C:/Program Files/MySQL/MySQL Server 8.0/DonneesActifs.csv' 
-#INTO TABLE cac 
-#FIELDS TERMINATED BY ';' 
-#ENCLOSED BY '"'
-#LINES TERMINATED BY '\n';
 
 select * from cac;

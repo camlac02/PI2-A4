@@ -15,11 +15,13 @@ if __name__=="__main__":
     date_1 = "2017-01-05"
     date_2 = "2017-12-29"
 
+
+
     #Valeur Max de l'investissement
     max_invest = 300000
 
     #Nombre de portefeuilles par population
-    nb_portefeuils = 4
+    nb_portefeuils = 5
     
     list_asset_with_value = []
 

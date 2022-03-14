@@ -84,9 +84,10 @@ class Portefeuille():
 
 
     def VolPortefeuille(self,listeActif):
+        liste_Actif = deepcopy(self.liste_Actifs)
         self.volatilite = 0
         Listepoids=[]
-        for actif in self.liste_Actifs:
+        for actif in liste_Actif:
             Listepoids.append(actif.poids)
         Listepoids=np.array(Listepoids)
         #print(Listepoids)
@@ -97,8 +98,8 @@ class Portefeuille():
         matrice = mat.matrice
         #print('matrice : \n',matrice)
         connection.close_connection()
-        print(matrice.shape)
-        print(Listepoids.shape)
+        #print(matrice.shape)
+        #print(Listepoids.shape)
         vol = math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
         print("vol",vol)
         self.volatilite=vol

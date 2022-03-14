@@ -21,32 +21,52 @@ class AlgoG() :
                     score = list_portefeuille[j].score
                     list_portefeuille[j].score = list_portefeuille[j+1].score
                     list_portefeuille[j+1].score = score
-        return self
+
+        # final_list = []
+        # for i in range(len(list_score)):
+        #     for j in range(len(list_portefeuille)):
+        #         if(list_portefeuille[j].score == list_score[i]):
+        #             final_list.append(list_portefeuille[j])
+        # self.pop.list_portefeuille = final_list
+        # return self
 
     #Cree une nouvelle population a partir de la precedente
     def nouvelle_population(self,list_asset,MaxInvest):
         
         pop_precedente = self.pop
 
-        Pourcentage_garder = 0.5
+        Pourcentage_garder = 0.4
         new_list_portefeuille = []
 
         new_list_portefeuille.append(pop_precedente.list_portefeuille[0])
 
-        for i in range(1,len(pop_precedente.list_portefeuille)):
+        count = 1
+        while count < len(pop_precedente.list_portefeuille):
+        #for i in range(1,len(pop_precedente.list_portefeuille)):
             
-            if i < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
+            if len(new_list_portefeuille) < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
 
                 rnd = round(random.uniform(1,2))
 
                 if rnd == 1:
                     #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
-                    new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
+                    pop = pop_precedente.crossover(MaxInvest,count)
+                    # print(pop[0].liste_Actifs)
+                    # print(pop[1].liste_Actifs)
+                    new_list_portefeuille.append(pop[0])
+                    new_list_portefeuille.append(pop[1])
+                    count +=1
                 if rnd == 2: 
                     #new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest))
-                    new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
+                    pop = pop_precedente.crossover(MaxInvest,count)
+                    # print(pop[0].liste_Actifs)
+                    # print(pop[1].liste_Actifs)
+                    new_list_portefeuille.append(pop[0])
+                    new_list_portefeuille.append(pop[1])
+                    count +=1
             else :
                 new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest))
+            count+=1
 
         return new_list_portefeuille 
 
@@ -64,9 +84,10 @@ class AlgoG() :
 
             print('\nGeneration : '+str(generation)+'\n')
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest))
+            #print('\navant sort',self.pop.__repr__())
             self.sort_population()
 
-            print('\n',self.pop.__repr__())
+            print('\napres sort',self.pop.__repr__())
             generation += 1
 
         return self.pop.list_portefeuille[0]

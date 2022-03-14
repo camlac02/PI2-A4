@@ -42,7 +42,7 @@ class Actifs():
         self.valeur = row['value']
         self.volume = row['volume']
         self.date = date1
-        self.rendement=row['Rendements']
+        self.rendement= row['Rendements']
         self.poids=0
         self.RendementsPourPF(date1,date2,connection)
         return self
