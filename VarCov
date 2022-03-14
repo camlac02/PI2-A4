@@ -26,10 +26,18 @@ class VaRCov():
             ListeRendements=[]
             requete2="select rendements from CAC40 where noms='"+noms+"' and dates between '"+date1+"' and '"+date2+"';"
             #on récupère la liste des Rendements de chaque actif
-            curseur2=Connexion.execute(requete2)    
+            curseur2 = Connexion.execute(requete2)    
             for row in curseur2:
                 ListeRendements.append(row['rendements'])
-            Liste += ListeRendements
+            if len(ListeRendements) != 7:
+                Liste.append(np.array(ListeRendements[0:7]))
+            else : Liste.append(np.array(ListeRendements))
+ 
+        #print(type(Liste))
+        #print(Liste)  
+
+        Liste = np.array(Liste)
+
         #print(type(Liste))
         #print(Liste)
         matrix=np.cov(Liste,bias=True)
@@ -42,5 +50,5 @@ if __name__=="__main__":
     mat = VaRCov([]) 
     connection = Connexion('BDD','root','PetruLuigi0405@!')
     connection.initialisation()
-    mat.CalculMatrice(connection,"2017-11-09","2017-11-17")
+    mat.CalculMatrice(connection,"2017-01-05","2017-12-29")
     connection.close_connection()
