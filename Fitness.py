@@ -10,10 +10,11 @@ import Portefeuille
 import Actifs
 
 class fitness():
-    def __init__(self, liste_Actifs, sharpe):
-        self.liste_Actifs = liste_Actifs
-        self.sharpe=sharpe
+    def __init__(self, portefeuille, sharpe):
+        self.portefeuille = portefeuille
+        self.sharpe = sharpe
     
-    def heuristique(portefeuille):     ##Fonction à minimiser
-        obj = -portefeuille.RatioSharpe() + 100*portefeuille.Contrainte()
-        return obj
+    def RatioSharpe(self):
+        ratio = (self.portefeuille.rendement)/(self.portefeuille.volatilite)
+        self.sharpe = ratio
+        return ratio

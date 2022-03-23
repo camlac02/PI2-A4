@@ -13,7 +13,7 @@ from Portefeuille import Portefeuille
 if __name__=="__main__":
 
     #Connexion a la base de donnée
-    connection = Connexion('BDD','root','PetruLuigi0405@!')
+    connection = Connexion('pi2','root','Leo20-Esilv')
     connection.initialisation()
 
     #Date de création du portefeuille
@@ -24,11 +24,11 @@ if __name__=="__main__":
     max_invest = 300000
     
     # Saisie utilisateur
-    expected_return = float(input("Quel rendement souhaitez vous atteindre ? :"))
-    expected_std = float(input("Quel volatilité souhaitez vous atteindre ? :"))
+    #expected_return = float(input("Quel rendement souhaitez vous atteindre ? :"))
+    #expected_std = float(input("Quel volatilité souhaitez vous atteindre ? :"))
     
     #Nombre de portefeuilles par population
-    nb_portefeuils = 4
+    nb_portefeuils = 5
 
     list_asset_with_value = []
 
@@ -41,14 +41,16 @@ if __name__=="__main__":
 
     pop = Population([]) 
 
-    pop.creation_population( list_asset_with_value, max_invest,nb_portefeuils)
+    pop.Creation_Population( list_asset_with_value, max_invest,nb_portefeuils)
 
     print(pop.__repr__())
 
 
-    Generation_max = 10
+    Generation_max = 3
     
-        #Appel de l'algo G
+    expected_return = 0.05
+    expected_std = 0.01
+    #Appel de l'algo G
     algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())

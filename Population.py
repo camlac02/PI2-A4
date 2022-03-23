@@ -20,7 +20,6 @@ class Population() :
 
         for i in range(nb_portefeuille):
             
-
             p = Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest)
             list_portefeuille.append(p)
 
@@ -29,28 +28,8 @@ class Population() :
         return self
     
     #Calcul des rendements moyens entre 2 dates
-
-     #Tri les portefeuils d'une population en fonction de leurs scores
-    def sort_population(self):
-
-        for i in range(len(self.list_portefeuille)):
-            for j in range(len(self.list_portefeuille)-1):
-                if(self.list_portefeuille[j].score < self.list_portefeuille[j+1].score):
-                    score = self.list_portefeuille[j].score
-                    self.list_portefeuille[j].score = self.list_portefeuille[j+1].score
-                    self.list_portefeuille[j+1].score = score
-        return self
-
-    # def mutation_portefeuille(self,index,MaxInvest):
-
-    #     self.list_portefeuille[index].mutation(MaxInvest)
-    #     return self
-
     def crossover(self):
-
         return self
-
-
     def nouvelle_population(pop_precedente,list_asset,MaxInvest):
         
         Pourcentage_garder = 0.5
@@ -79,9 +58,3 @@ class Population() :
     def __repr__(self):
         return "{0}".format(self.list_portefeuille)
 
-if __name__=="__main__":
-    pop = Population ([])
-    connection = Connexion('BDD','root','PetruLuigi0405@!')
-    connection.initialisation()
-    'pop.MoyenneRendements(connection,"2017-11-09","2017-11-17")'
-    connection.close_connection()

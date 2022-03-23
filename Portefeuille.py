@@ -96,7 +96,7 @@ class Portefeuille():
         Listepoids=np.array(Listepoids)
         #print(Listepoids)
         mat = VaRCov([]) 
-        connection = Connexion('BDD','root','PetruLuigi0405@!')
+        connection = Connexion('pi2','root','Leo20-Esilv')
         connection.initialisation()
         mat.CalculMatrice(connection,"2017-01-05","2017-12-29")
         matrice = mat.matrice
@@ -135,9 +135,9 @@ class Portefeuille():
     def mutation(self,MaxInvest):
 
         liste_Actif = deepcopy(self.liste_Actifs)
-        self.score = 0
-        self.rendement = 0
-        self.volatilite = 0
+        # self.score = 0
+        # self.rendement = 0
+        # self.volatilite = 0
         valeur_totale = deepcopy(self.valeur)
 
         r = random.randrange(0,len(liste_Actif))
@@ -145,9 +145,10 @@ class Portefeuille():
             r = random.randrange(0,len(liste_Actif))
 
         # retire la valeur de l'actif au portefeuille
-        MaxInvest = liste_Actif[r].valeur * liste_Actif[r].nb_shares + MaxInvest - valeur_totale 
+        MaxInvest = liste_Actif[r].valeur * liste_Actif[r].nb_shares + (MaxInvest - valeur_totale) #on obtient la valeur de l'actif retiré ainsi que l'espace restant du portefeuil
+        print('MaxInvest  : '+str(MaxInvest) )
         liste_Actif[r].nb_shares = 0
-        valeur_totale = valeur_totale - liste_Actif[r].valeur * liste_Actif[r].nb_shares
+        #valeur_totale = valeur_totale - liste_Actif[r].valeur * liste_Actif[r].nb_shares
         print("Nom de l'action Mutée : "+ liste_Actif[r].nom)
 
         prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
@@ -164,16 +165,14 @@ class Portefeuille():
             max_nb = MaxInvest//(liste_Actif[choix_action].valeur)
 
             rnd = random.randint(0,max_nb)
-            liste_Actif[choix_action].nb_shares = rnd
+            liste_Actif[choix_action].nb_shares = rnd + liste_Actif[choix_action].nb_shares         
             
-            valeur = liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
+            valeur = rnd*liste_Actif[choix_action].valeur
             MaxInvest = MaxInvest - valeur
-
-            valeur_totale += valeur #On ajoute la valeur des actions a la valeur du portefeuille
 
         self.liste_Actifs = liste_Actif
 
-        self.valeur = valeur_totale 
+        self.Valeur_Portefeuille()
 
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
@@ -181,6 +180,8 @@ class Portefeuille():
 
         self.score = fitness(self, 0).RatioSharpe()
         
+        print('PORTEFEUILLE MUTE')
+        print(self.__repr__())
 
         return self
 

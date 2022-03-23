@@ -31,12 +31,12 @@ class Actifs():
         #Fonction qui prend en argument la connexion avec la base de données
         #La fonction retourne une liste d'actifs avec le nom de chaque actif 
         #Tout les autres attributs sont initialisée à 0     
-        requete = 'Select distinct noms from CAC40'
+        requete = 'Select distinct name from cac'
         curseur = connexion.execute(requete)
         liste_Actifs = []
 
         for row in curseur:
-            action = Actifs(row['noms'],0,0,0,0,0,0,0)
+            action = Actifs(row['name'],0,0,0,0,0,0,0)
             liste_Actifs.append(action)
             
         return liste_Actifs
@@ -47,13 +47,13 @@ class Actifs():
         #et la connexion avec la base de données
         #La fonction retourne une liste d'actifs, chacun asocié à une liste contenant
         #toutes les informations le concernant ('name', 'value' et 'volumnes') à la date du jour 
-        requete = "Select valeurs,volumes,rendements from CAC40 where dates = '"+date1+"' and noms = '"+str(self.nom)+"';"
+        requete = "Select value,volume,Rendements from cac where date = '"+date1+"' and name = '"+str(self.nom)+"';"
         curseur = connection.execute(requete)
         row = curseur.fetchone()
-        self.valeur = row['valeurs']
-        self.volume = row['volumes']
+        self.valeur = row['value']
+        self.volume = row['volume']
         self.date = date1
-        self.rendement=row['rendements']
+        self.rendement=row['Rendements']
         self.poids=0
         self.RendementsPourPF(date1,date2,connection)
         return self
@@ -65,30 +65,21 @@ class Actifs():
 
         
     def RendementsPourPF(self,date1,date2,connection):
-        '''
-        requete1="Select distinct noms from CAC40;"
-        curseur=connection.execute(requete1)
-        ListeNoms=[]
-        #on récupère la liste des noms des actifs
-        for row in curseur:
-            ListeNoms.append(row['name'])
-        Nbname=1
-        for name in ListeNoms:'''
         Liste=[]
-        requete2="select rendements,valeurs from CAC40 where noms='"+str(self.nom)+"' and dates between '"+date1+"' and '"+date2+"';"
+        requete2="select Rendements,value from cac where name='"+str(self.nom)+"' and date between '"+date1+"' and '"+date2+"';"
         #on récupère la liste des Rendements de chaque actif
         curseur2=connection.execute(requete2)    
         for row in curseur2:
-            Liste.append([row['rendements'],row['valeurs']])
+            Liste.append([row['Rendements'],row['value']])
         self.ListeRendementsValeurs=Liste
-        print(Liste)
+        #print(Liste)
             #Liste.append(moyenne)
         #print(Liste)
 
     def Rendement_Actif(self,connexion):
 
         # Retourne une liste de tuple (date,rendement en %) d'un actif
-        requete1 = "Select valeurs, dates from CAC40 where noms = '"+self.nom+"';"
+        requete1 = "Select value, date from cac where name = '"+self.nom+"';"
         curseur = connexion.execute(requete1)
         valeurs_precedente = 0 
   
@@ -96,17 +87,17 @@ class Actifs():
             if valeurs_precedente == 0:
                 self.rendement = 0
             else :
-                self.rendement = (round((row['valeurs'] - valeurs_precedente)/ valeurs_precedente *100,2))
+                self.rendement = (round((row['value'] - valeurs_precedente)/ valeurs_precedente *100,2))
             
-            valeurs_precedente = row['valeurs']
+            valeurs_precedente = row['value']
 
         return self
     
     def CAGR(self, date1, date2, connexion):
-        requete1 = "Select valeurs from CAC40 where noms = '"+self.nom+"';"
-        requete2 = "Select valeurs from CAC40 where noms = '" + self.nom + "' and dates = '"+ date1 +"';"  # Récupération de P_initial
-        requete3 = "Select valeurs from CAC40 where noms ='" + self.nom + "' and dates = '"+ date2 +"';" # Récupération de P_final
-        requete4 = "Select count(valeurs) from CAC40 where noms = '" + self.nom + "' and dates between '" + date1 + "' and '" +date2 + "';"
+        requete1 = "Select value from cac where name = '"+self.nom+"';"
+        requete2 = "Select value from cac where name = '" + self.nom + "' and date = '"+ date1 +"';"  # Récupération de P_initial
+        requete3 = "Select value from cac where name ='" + self.nom + "' and date = '"+ date2 +"';" # Récupération de P_final
+        requete4 = "Select count(value) from cac where name = '" + self.nom + "' and date between '" + date1 + "' and '" +date2 + "';"
         P_init = connexion.execute(requete2)
         P_final = connexion.execute(requete3)
         nb_jours = connexion.execute(requete4)
@@ -129,20 +120,20 @@ class Actifs():
     
     def MoyenneRendements(self,date1,date2,connection):
         Liste=[]
-        requete1="Select distinct noms from CAC40;"
+        requete1="Select distinct name from cac;"
         curseur=connection.execute(requete1)
         ListeNoms=[]
         #on récupère la liste des noms des actifs
         for row in curseur:
-            ListeNoms.append(row['noms'])
+            ListeNoms.append(row['name'])
         for name in ListeNoms:
             somme=0
-            requete2="select rendements from CAC40 where noms='"+name+"' and dates between '"+date1+"' and '"+date2+"';"
+            requete2="select Rendements from cac where name='"+name+"' and date between '"+date1+"' and '"+date2+"';"
             #on récupère la liste des Rendements de chaque actif
             curseur2=connection.execute(requete2)    
             nbrow=0
         for row in curseur2:
-            somme+=(row['rendements'])
+            somme+=(row['Rendements'])
             nbrow+=1
         moyenne=round(somme,6)
         if(self.nom==name):
