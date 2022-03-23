@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 17 13:00:10 2022
+
+@author: PC
+"""
+
 import pymysql.cursors  
 
 class Connexion():
@@ -31,3 +38,4 @@ class Connexion():
         #La fonction ferme la connexion avec la Base de donnés
         self.cur.close()
         self.conn.close()
+	

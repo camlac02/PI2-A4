@@ -1,4 +1,9 @@
-#Classe Portefeuille
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb 17 13:13:52 2022
+
+@author: PC
+"""
 from Actifs import Actifs
 import random
 from VaRCov import VaRCov
@@ -61,7 +66,7 @@ class Portefeuille():
             #MaxInvesti = MaxInvesti - int(self.liste_nbr_shares[choice_asset])*self.liste_Actifs[choice_asset].valeur
 
         self.liste_Actifs = liste_Actif
-        self.Valeur_Portefeuille(liste_Actif)
+        self.Valeur_Portefeuille()
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
         self.RendementsPF(liste_Actif)
@@ -72,22 +77,21 @@ class Portefeuille():
 
 
     # Calcul la valeur d'un portefeuille
-    def Valeur_Portefeuille(self,liste_Actif):
+    def Valeur_Portefeuille(self):
         #Fonction qui prend en argument un portefeuille et qui calcule
         #la valeur associée à ce portefeuille 
         self.valeur = 0
-        for i in range(len(liste_Actif)):
+        for i in range(len( self.liste_Actifs)):
             #valeur=valeur asset*poids
-            self.valeur = self.valeur +  liste_Actif[i].valeur*int( liste_Actif[i].nb_shares)
+            self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
             #self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_nbr_shares [i])
         return self
 
 
     def VolPortefeuille(self,listeActif):
-        liste_Actif = deepcopy(self.liste_Actifs)
         self.volatilite = 0
         Listepoids=[]
-        for actif in liste_Actif:
+        for actif in self.liste_Actifs:
             Listepoids.append(actif.poids)
         Listepoids=np.array(Listepoids)
         #print(Listepoids)
@@ -98,9 +102,7 @@ class Portefeuille():
         matrice = mat.matrice
         #print('matrice : \n',matrice)
         connection.close_connection()
-        #print(matrice.shape)
-        #print(Listepoids.shape)
-        vol = math.sqrt((np.transpose(Listepoids))@matrice@Listepoids)
+        vol = math.sqrt((np.transpose(Listepoids)@matrice@Listepoids))
         print("vol",vol)
         self.volatilite=vol
         return self
@@ -113,32 +115,32 @@ class Portefeuille():
     #     self.rendement = (sum([a*b for a,b in zip([liste_Actif[i].nb_shares for i in range(0,len(liste_Actif[1].ListeRendementsValeurs))], liste)]))/100
     #     return self
 
-    def RendementsPF(self,liste_Actif):
-        self.rendement = 0
+    def RendementsPF(self, liste_Actif):
+        liste_Actif = self.liste_Actifs
+        RendementPF =0
+        Liste=[]
         SommePF=1
-        for i in range(0,len(liste_Actif[0].ListeRendementsValeurs)-1):     
-            RendementPF = 0 
-
-            for actif in liste_Actif:
-                RendementPF += actif.ListeRendementsValeurs[i][0]*actif.nb_shares*actif.ListeRendementsValeurs[i][1]
-                RendementPF /= self.valeur
-
-            SommePF *= (1+RendementPF)
-
+        for j in range(0,len(liste_Actif[1].ListeRendementsValeurs) -1):
+            RendementPF =0
+            for i in liste_Actif:
+                Liste=i.ListeRendementsValeurs
+                RendementPF+=Liste[j][0]*i.nb_shares*Liste[j][1]/self.valeur
+            SommePF*=(1+RendementPF)
         self.rendement = SommePF-1
 
-        return self
-        
 
     def __repr__(self):
         return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille (Ratio Sharpe) :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
+    
+    def __str__(self):
+        return "\nListe d'actifs : {0}\n".format(self.liste_Actifs) 
 
     def mutation(self,MaxInvest):
 
         liste_Actif = deepcopy(self.liste_Actifs)
-        self.score = 0
-        self.rendement = 0
-        self.volatilite = 0
+        # self.score = 0
+        # self.rendement = 0
+        # self.volatilite = 0
         valeur_totale = deepcopy(self.valeur)
 
         r = random.randrange(0,len(liste_Actif))
@@ -146,9 +148,10 @@ class Portefeuille():
             r = random.randrange(0,len(liste_Actif))
 
         # retire la valeur de l'actif au portefeuille
-        MaxInvest = liste_Actif[r].valeur * liste_Actif[r].nb_shares + MaxInvest - valeur_totale 
+        MaxInvest = liste_Actif[r].valeur * liste_Actif[r].nb_shares + (MaxInvest - valeur_totale) #on obtient la valeur de l'actif retiré ainsi que l'espace restant du portefeuil
+        print('MaxInvest  : '+str(MaxInvest) )
         liste_Actif[r].nb_shares = 0
-        valeur_totale = valeur_totale - liste_Actif[r].valeur * liste_Actif[r].nb_shares
+        #valeur_totale = valeur_totale - liste_Actif[r].valeur * liste_Actif[r].nb_shares
         print("Nom de l'action Mutée : "+ liste_Actif[r].nom)
 
         prix_min = Portefeuille.plus_petit_prix(liste_Actif) 
@@ -165,16 +168,14 @@ class Portefeuille():
             max_nb = MaxInvest//(liste_Actif[choix_action].valeur)
 
             rnd = random.randint(0,max_nb)
-            liste_Actif[choix_action].nb_shares = rnd
+            liste_Actif[choix_action].nb_shares = rnd + liste_Actif[choix_action].nb_shares         
             
-            valeur = liste_Actif[choix_action].nb_shares*liste_Actif[choix_action].valeur
+            valeur = rnd*liste_Actif[choix_action].valeur
             MaxInvest = MaxInvest - valeur
-
-            valeur_totale += valeur #On ajoute la valeur des actions a la valeur du portefeuille
 
         self.liste_Actifs = liste_Actif
 
-        self.valeur = valeur_totale 
+        self.Valeur_Portefeuille()
 
         self.Poid_dans_portefeuille() # calcule la valeur finale du portefeuille
         self.VolPortefeuille(liste_Actif)
@@ -182,6 +183,8 @@ class Portefeuille():
 
         self.score = fitness(self, 0).RatioSharpe()
         
+        print('PORTEFEUILLE MUTE')
+        print(self.__repr__())
 
         return self
 
@@ -195,5 +198,4 @@ class Portefeuille():
             self.liste_Actifs[i].poids  = round(poids / self.valeur,5)
         return self
     ####################################################################################################################################
-    
-    
+  
