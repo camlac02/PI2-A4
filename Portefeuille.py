@@ -131,6 +131,9 @@ class Portefeuille():
 
     def __repr__(self):
         return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille (Ratio Sharpe) :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
+    
+    def __str__(self):
+        return "\nListe d'actifs : {0}\n".format(self.liste_Actifs) 
 
     def mutation(self,MaxInvest):
 

@@ -54,5 +54,6 @@ if __name__=="__main__":
     algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())
+    print('\n', algoG.liste_Actifs.__str__())
 
     connection.close_connection()
