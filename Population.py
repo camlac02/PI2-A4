@@ -7,7 +7,7 @@ class Population() :
 
 
     
-    def Creation_Population(self, list_asset, MaxInvest, nb_portefeuille,date_1,date_2,connexion):
+    def creation_population(self, list_asset, MaxInvest, nb_portefeuille,date_1,date_2,connexion):
     #Creation de la population en fonction du nombre de portefeuille voulu.
         list_portefeuille = []
         for i in range(nb_portefeuille):

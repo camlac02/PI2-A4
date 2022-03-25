@@ -58,17 +58,58 @@ class AlgoG() :
 
 
 
-    # fonction executant l'algorithme genetique
+    #Fonction executant l'algorithme genetique en fonction des conditions d'objectifs de rendement et de volatilité posés par l'utilisateur
     def algorihtme_genetique(self, liste_assets, max_invest, exp_ret, exp_vol,date_1,date_2,connexion):
         generation = 0
-        while generation <= self.generation_max : #'''((self.pop.list_portefeuille[0].rendement < 0.8*exp_ret) or (self.pop.list_portefeuille[0].volatilite > exp_vol)) and'''
 
-            print('\nGeneration : '+str(generation)+'\n')
+        self.sort_population()
+
+        if (exp_ret == 0):
+            if (exp_vol == 0):
+            #Si aucun rendement ou volatilité n'est entré par l'utilisateur.
+                while generation <= self.generation_max:
+    
+                    self.Generation(liste_assets, max_invest, generation, date_1,date_2,connexion)
+                    generation += 1
+
+                return self.pop.list_portefeuille[0]
+
+            #Si aucun rendement n'est entré par l'utilisateur (mais l'utilisateur à rentré une volatilité).
+            else : 
+                while generation <= self.generation_max and (self.pop.list_portefeuille[0].volatilite < 0.9*exp_vol or self.pop.list_portefeuille[0].volatilite > 1.1*exp_vol):
+        
+                    self.Generation(liste_assets, max_invest, generation, date_1,date_2,connexion)
+                    generation += 1
+
+                return self.pop.list_portefeuille[0]
+        else:
+            if (exp_vol == 0):
+            #Si aucune volatilité n'est entré par l'utilisateur (mais l'utilisateur à rentré un rendement)
+                while generation <= self.generation_max and (self.pop.list_portefeuille[0].rendement < 0.9*exp_ret):
+            
+                    self.Generation(liste_assets, max_invest, generation, date_1,date_2,connexion)
+                    generation += 1
+
+                return self.pop.list_portefeuille[0]
+            else :
+            #Si un rendement et une volatilité sont entré par l'utilisateur.
+                while generation <= self.generation_max and ((self.pop.list_portefeuille[0].rendement < 0.9*exp_ret) or (self.pop.list_portefeuille[0].volatilite < 0.9*exp_vol or self.pop.list_portefeuille[0].volatilite > 1.1*exp_vol)):
+
+                    self.Generation(liste_assets, max_invest, generation, date_1,date_2,connexion)
+                    generation += 1
+
+                return self.pop.list_portefeuille[0]
+
+
+
+    #Crée la nouvelle population pour chaque génération
+    def Generation(self, liste_assets, max_invest, generation, date_1,date_2,connexion):
+
+            print('\n############## Generation : '+str(generation)+' ##############\n')
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest,date_1,date_2,connexion))
             self.sort_population()
 
             print('\n',self.pop.__repr__())
-            generation += 1
+            
 
-        return self.pop.list_portefeuille[0]
 
