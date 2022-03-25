@@ -37,22 +37,28 @@ class AlgoG() :
         new_list_portefeuille = []
         new_list_portefeuille.append(pop_precedente.list_portefeuille[0]) #On garde le portefeuille avec le meilleur score.
 
-        for i in range(1,len(pop_precedente.list_portefeuille)):
+        i = 1
+        while i < len(pop_precedente.list_portefeuille):
             
             
-            if i < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
+            if i < 2:#len(pop_precedente.list_portefeuille)*Pourcentage_garder:
                 #On croise et mute le pourcentage de la population choisit
 
                 rnd = round(random.uniform(1,2)) #Une chance sur deux de croiser et une chance sur deux de muter
                 if rnd == 1:
-                    new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest,date_1,date_2,connexion))
-                    #new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
+                    print('\nCROSSOVER\n')
+                    cross = Population.crossover(pop_precedente.list_portefeuille[i],pop_precedente.list_portefeuille[i+1],date_1,date_2,connexion)
+                    new_list_portefeuille.append(cross[0])
+                    new_list_portefeuille.append(cross[1])
+                    i+=2
                 if rnd == 2: 
+                    print('\nMUTATION\n')
                     new_list_portefeuille.append(pop_precedente.list_portefeuille[i].mutation(MaxInvest,date_1,date_2,connexion))
-                    #new_list_portefeuille.append(pop_precedente.crossover(MaxInvest))
+                    i+=1           
             else :
                 #On complete la population avec des portefeuilles crées aléatoirement
                 new_list_portefeuille.append(Portefeuille(list_asset,0,0,0,0).Creation_Portefeuille(MaxInvest,date_1,date_2,connexion))
+                i +=1
 
         return new_list_portefeuille 
 
