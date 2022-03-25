@@ -16,16 +16,16 @@ if __name__=="__main__":
     print("Si vous ne souhaitez pas renseigner de volatilité ou de rendement à atteindre entrez : 0")
 
     #Valeur Max de l'investissement
-    max_invest = float(input("Quel est le montant que vous souhaitez investir ? :"))
+    max_invest = float(input("Quel est le montant que vous souhaitez investir ? : "))
     #max_invest = 300000
     
     #Valeur visée pour le rendement et la volatilitée
-    expected_return = float(input("Quel rendement souhaitez vous atteindre ? :"))
-    expected_std = float(input("Quel volatilité souhaitez vous atteindre ? :"))
+    expected_return = float(input("Quel rendement souhaitez vous atteindre ? : "))
+    expected_std = float(input("Quelle volatilité souhaitez vous atteindre ? : "))
     
     #Nombre de portefeuilles par population
     nb_portefeuils = 5
-    Generation_max = 3
+    Generation_max = 5
 
     #Creation des différents actifs
     list_asset_with_value = []
