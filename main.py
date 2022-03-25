@@ -37,11 +37,10 @@ if __name__=="__main__":
     #Associe une valeur a chaque actif
     for asset in list_asset:
             list_asset_with_value.append(asset.Valeur_Actifs(date_1,date_2,connection))
-            #list_asset_with_value.append(asset.Valeur_Actifs(date_1,connection))
 
     pop = Population([]) 
 
-    pop.Creation_Population( list_asset_with_value, max_invest,nb_portefeuils)
+    pop.Creation_Population(list_asset_with_value, max_invest,nb_portefeuils,date_1,date_2,connection)
 
     print(pop.__repr__())
 
@@ -51,7 +50,7 @@ if __name__=="__main__":
     expected_return = 0.05
     expected_std = 0.01
     #Appel de l'algo G
-    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std)
+    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())
     print('\n', algoG.liste_Actifs.__str__())

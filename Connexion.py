@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 17 13:00:10 2022
-
-@author: PC
-"""
-
 import pymysql.cursors  
 
+#Classe de connexion à la BDD MySQLWorkbench
 class Connexion():
 
     def __init__(self, database, user, mdp):
@@ -15,6 +9,7 @@ class Connexion():
         self.mdp = mdp
         self.conn = None
         self.cur = None
+
 
 
     def initialisation(self):
@@ -27,11 +22,13 @@ class Connexion():
         self.cur = self.conn.cursor()
 
 
+
     def execute(self,requete):
         #La fonction prend en argument une requete SQL sous forme de chaine de caractère
         #Et retourne le curseur qui permet d'acceder au résultat de la requete     
         self.cur.execute(requete)
         return self.cur
+
 
 
     def close_connection(self):    

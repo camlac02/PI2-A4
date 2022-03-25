@@ -1,18 +1,11 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 17 13:00:08 2022
-
-@author: PC
-"""
-from Connexion import Connexion
-from Actifs import Actifs
-from Connexion import Connexion
 import numpy as np
 
 class VaRCov():
     def __init__(self, matrice):
         self.matrice=matrice
 
+
+    #Calcul de la matrice de variance covariance
     def CalculMatrice(self,Connexion,date1,date2):
         Liste=[]
         requete1="Select distinct name from cac;"
@@ -33,14 +26,7 @@ class VaRCov():
                 Liste.append(np.array(ListeRendements[0:7]))
             else : Liste.append(np.array(ListeRendements))
  
-        #print(type(Liste))
-        #print(Liste)  
-
         Liste = np.array(Liste)
-
-        #print(type(Liste))
-        #print(Liste)
         matrix=np.cov(Liste,bias=True)
-        #print(matrix)
         self.matrice=matrix
 
