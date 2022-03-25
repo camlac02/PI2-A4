@@ -1,5 +1,6 @@
 from Portefeuille import Portefeuille 
 
+#Classe Population
 class Population() :
 
     def __init__(self, list_portefeuille):

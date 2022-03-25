@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 17 12:57:23 2022
-
-@author: PC
-"""
 from AlgoG import AlgoG
 from Connexion import Connexion
 from Actifs import Actifs
