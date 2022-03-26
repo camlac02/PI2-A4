@@ -127,7 +127,7 @@ class Portefeuille():
                 RendementPF+=Liste[j][0]*i.nb_shares*Liste[j][1]/self.valeur
             SommePF*=(1+RendementPF)
 
-        self.rendement = SommePF-1
+        self.rendement = (SommePF-1)/10
 
 
 
