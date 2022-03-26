@@ -26,7 +26,7 @@ if __name__=="__main__":
     
     #Nombre de portefeuilles par population
     nb_portefeuils = 5
-    Generation_max = 3
+    Generation_max = 5
 
     #Creation des différents actifs
     list_asset_with_value = []
