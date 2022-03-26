@@ -31,7 +31,7 @@ class Connexion():
 
 
 
-    def close_connection(self):    
+    def close_connexion(self):    
         #La fonction ferme la connexion avec la Base de donnés
         self.cur.close()
         self.conn.close()

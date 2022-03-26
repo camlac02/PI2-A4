@@ -10,8 +10,9 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_1 = "2017-01-05"
-    date_2 = "2017-12-29"
+    #Ne pas selectionner des jours fermés sinon le program ne marchera pas (a améliorer ?)
+    date_1 = "2020-11-05"
+    date_2 = "2021-11-08"
 
     print("Si vous ne souhaitez pas renseigner de volatilité ou de rendement à atteindre entrez : 0")
 
@@ -25,7 +26,7 @@ if __name__=="__main__":
     
     #Nombre de portefeuilles par population
     nb_portefeuils = 5
-    Generation_max = 5
+    Generation_max = 3
 
     #Creation des différents actifs
     list_asset_with_value = []
@@ -47,4 +48,4 @@ if __name__=="__main__":
     print('\nPortefeuille final :\n'+algoG.__repr__())
     print('\n', algoG.liste_Actifs.__str__())
 
-    connection.close_connection()
+    connection.close_connexion()
