@@ -1,11 +1,9 @@
 #Classe Fitness
 class fitness():
 
-    def __init__(self, portefeuille, sharpe):
+    def __init__(self, portefeuille):
         self.portefeuille = portefeuille
-        self.sharpe = sharpe
-    
-
+        self.sharpe = 0
 
     #Calcul du ratio de sharpe
     def RatioSharpe(self):

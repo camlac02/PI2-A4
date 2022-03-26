@@ -1,7 +1,7 @@
 #Classe d'actifs
 class Actifs():
 
-    def __init__(self, nom, valeur, volume, date,nb_shares,rendement,poids,ListeRendementsValeurs):
+    def __init__(self, nom, valeur, volume, date, nb_shares ,rendement, poids, ListeRendementsValeurs):
         self.nom = nom
         self.valeur = valeur
         self.volume = volume
@@ -10,8 +10,6 @@ class Actifs():
         self.rendement = rendement
         self.poids=poids 
         self.ListeRendementsValeurs=ListeRendementsValeurs
-
-
 
     def creationActifs(connexion):
         #Fonction qui prend en argument la connexion avec la base de données
@@ -26,8 +24,6 @@ class Actifs():
             liste_Actifs.append(action)
             
         return liste_Actifs
-
-
 
     def Valeur_Actifs(self, date1, date2, connection):
         #Fonction  qui prend en arguments une liste d'actifs, la date du jour (date1), 

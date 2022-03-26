@@ -13,21 +13,25 @@ class AlgoG() :
 
     #On trie la population en fonction de son score en ordre descendant
     def sort_population(self):
-        list_score=[]
+        # list_score=[]
         list_portefeuille = deepcopy(self.pop.list_portefeuille)
 
-        #Tri les scores des differents portefeuilles
-        for i in range(len(list_portefeuille)):
-            list_score.append(list_portefeuille[i].score)
-        list_score = sorted(list_score,reverse=True)
+        # #Tri les scores des differents portefeuilles
+        # for i in range(len(list_portefeuille)):
+        #     list_score.append(list_portefeuille[i].score)
+        # list_score = sorted(list_score,reverse=True)
 
-        #Reassocie a chaque score un portefeuille
-        final_list = []
-        for i in range(len(list_score)):
-            for j in range(len(list_portefeuille)):
-                if(list_portefeuille[j].score == list_score[i]):
-                    final_list.append(list_portefeuille[j])
-        self.pop.list_portefeuille = final_list
+        # #Reassocie a chaque score un portefeuille
+        # final_list = []
+        # for i in range(len(list_score)):
+        #     for j in range(len(list_portefeuille)):
+        #         if(list_portefeuille[j].score == list_score[i]):
+        #             final_list.append(list_portefeuille[j])
+        # self.pop.list_portefeuille = final_list
+
+        list_score = sorted(list_portefeuille,key=lambda x:x.score,reverse=True)
+        self.pop.list_portefeuille = list_score
+
         return self
 
 

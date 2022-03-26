@@ -40,7 +40,7 @@ if __name__=="__main__":
     #Creation de la population initiale
     pop = Population([])
     pop.creation_population(list_asset_with_value, max_invest,nb_portefeuils,date_1,date_2,connection)
-    print(pop.__repr__())
+    print(pop)
 
     #Appel de l'algo Génétique
     algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
