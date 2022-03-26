@@ -26,7 +26,7 @@ if __name__=="__main__":
     
     #Nombre de portefeuilles par population
     nb_portefeuils = 5
-    Generation_max = 5
+    generation_max = 5
 
     #Creation des différents actifs
     list_asset_with_value = []
@@ -43,7 +43,7 @@ if __name__=="__main__":
     print(pop)
 
     #Appel de l'algo Génétique
-    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
+    algoG = AlgoG(pop,generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())
     print('\n', algoG.liste_Actifs.__str__())
