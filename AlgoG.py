@@ -15,10 +15,13 @@ class AlgoG() :
     def sort_population(self):
         list_score=[]
         list_portefeuille = deepcopy(self.pop.list_portefeuille)
+
+        #Tri les scores des differents portefeuilles
         for i in range(len(list_portefeuille)):
             list_score.append(list_portefeuille[i].score)
         list_score = sorted(list_score,reverse=True)
 
+        #Reassocie a chaque score un portefeuille
         final_list = []
         for i in range(len(list_score)):
             for j in range(len(list_portefeuille)):
@@ -41,7 +44,7 @@ class AlgoG() :
         while i < len(pop_precedente.list_portefeuille):
             
             
-            if i < 2:#len(pop_precedente.list_portefeuille)*Pourcentage_garder:
+            if i < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
                 #On croise et mute le pourcentage de la population choisit
 
                 rnd = round(random.uniform(1,2)) #Une chance sur deux de croiser et une chance sur deux de muter
@@ -111,7 +114,7 @@ class AlgoG() :
     #Crée la nouvelle population pour chaque génération
     def Generation(self, liste_assets, max_invest, generation, date_1,date_2,connexion):
 
-            print('\n############## Generation : '+str(generation)+' ##############\n')
+            print('\n############## Generation : '+str(generation+1)+' ##############\n')
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest,date_1,date_2,connexion))
             self.sort_population()
 
