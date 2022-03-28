@@ -8,8 +8,6 @@ class Population() :
     def __init__(self, list_portefeuille):
         self.list_portefeuille = list_portefeuille
 
-
-    
     def creation_population(self, list_asset, MaxInvest, nb_portefeuille,date_1,date_2,connexion):
     #Creation de la population en fonction du nombre de portefeuille voulu.
         list_portefeuille = []
@@ -21,13 +19,13 @@ class Population() :
         self.list_portefeuille = list_portefeuille
         return self
 
-
-
     #Retourne une chaine de caractère contenant la liste de portefeuilles contenu dans une population.
     def __repr__(self):
         return "{0}".format(self.list_portefeuille)
 
-
+    #Fonction prenant en paramètre deux portefeuilles. Les listes d'actifs de ces deux portefeuilles
+    #Sont coupées en deux et recombiné afin de crée deux nouvelles listes d'actifs.
+    #Deux nouveaux portefeuilles sont générés à partir de ces deux nouvelles listes
     def crossover(portefeuille_1, portefeuille_2,date_1,date_2,connexion):
         
         list_1 = deepcopy(portefeuille_1.liste_Actifs)
@@ -114,14 +112,14 @@ class Population() :
         final_mut1.VolPortefeuille(date_1,date_2,connexion)
         final_mut1.RendementsPF()
         #On calcul le score du portefeuille grace a la fitness
-        final_mut1.score = fitness(final_mut1, 0).RatioSharpe()
+        final_mut1.score = fitness(final_mut1).RatioSharpe()
 
         final_mut2.Valeur_Portefeuille()
         final_mut2.Poid_dans_portefeuille()
         final_mut2.VolPortefeuille(date_1,date_2,connexion)
         final_mut2.RendementsPF()
         #On calcul le score du portefeuille grace a la fitness
-        final_mut2.score = fitness(final_mut2, 0).RatioSharpe()
+        final_mut2.score = fitness(final_mut2).RatioSharpe()
 
         #On retourne les deux nouveaux portefeuilles crées
         return [final_mut1,final_mut2]

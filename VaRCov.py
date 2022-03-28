@@ -3,8 +3,7 @@ import numpy as np
 class VaRCov():
     def __init__(self, matrice):
         self.matrice=matrice
-
-
+        
     #Calcul de la matrice de variance covariance
     def CalculMatrice(self,Connexion,date1,date2):
         Liste=[]
