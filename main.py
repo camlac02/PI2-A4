@@ -10,8 +10,9 @@ if __name__=="__main__":
     connection.initialisation()
 
     #Date de création du portefeuille
-    date_1 = "2017-01-05"
-    date_2 = "2017-12-29"
+    #Ne pas selectionner des jours fermés sinon le program ne marchera pas (a améliorer ?)
+    date_1 = "2020-11-05"
+    date_2 = "2021-11-08"
 
     print("Si vous ne souhaitez pas renseigner de volatilité ou de rendement à atteindre entrez : 0")
 
@@ -25,7 +26,7 @@ if __name__=="__main__":
     
     #Nombre de portefeuilles par population
     nb_portefeuils = 5
-    Generation_max = 5
+    generation_max = 5
 
     #Creation des différents actifs
     list_asset_with_value = []
@@ -39,12 +40,12 @@ if __name__=="__main__":
     #Creation de la population initiale
     pop = Population([])
     pop.creation_population(list_asset_with_value, max_invest,nb_portefeuils,date_1,date_2,connection)
-    print(pop.__repr__())
+    print(pop)
 
     #Appel de l'algo Génétique
-    algoG = AlgoG(pop,Generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
+    algoG = AlgoG(pop,generation_max).algorihtme_genetique(list_asset_with_value, max_invest,expected_return, expected_std,date_1,date_2,connection)
 
     print('\nPortefeuille final :\n'+algoG.__repr__())
     print('\n', algoG.liste_Actifs.__str__())
 
-    connection.close_connection()
+    connection.close_connexion()

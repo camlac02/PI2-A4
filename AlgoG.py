@@ -9,25 +9,14 @@ class AlgoG() :
         self.pop = pop
         self.generation_max = generation_max
 
-
-
     #On trie la population en fonction de son score en ordre descendant
     def sort_population(self):
-        list_score=[]
+
         list_portefeuille = deepcopy(self.pop.list_portefeuille)
-        for i in range(len(list_portefeuille)):
-            list_score.append(list_portefeuille[i].score)
-        list_score = sorted(list_score,reverse=True)
+        list_score = sorted(list_portefeuille,key=lambda x:x.score,reverse=True)
+        self.pop.list_portefeuille = list_score
 
-        final_list = []
-        for i in range(len(list_score)):
-            for j in range(len(list_portefeuille)):
-                if(list_portefeuille[j].score == list_score[i]):
-                    final_list.append(list_portefeuille[j])
-        self.pop.list_portefeuille = final_list
         return self
-
-
 
     def nouvelle_population(self,list_asset,MaxInvest,date_1,date_2,connexion):
     #Creation d'une nouvelle population en fonction d'une population précédente
@@ -41,7 +30,7 @@ class AlgoG() :
         while i < len(pop_precedente.list_portefeuille):
             
             
-            if i < 2:#len(pop_precedente.list_portefeuille)*Pourcentage_garder:
+            if i < len(pop_precedente.list_portefeuille)*Pourcentage_garder:
                 #On croise et mute le pourcentage de la population choisit
 
                 rnd = round(random.uniform(1,2)) #Une chance sur deux de croiser et une chance sur deux de muter
@@ -61,8 +50,6 @@ class AlgoG() :
                 i +=1
 
         return new_list_portefeuille 
-
-
 
     #Fonction executant l'algorithme genetique en fonction des conditions d'objectifs de rendement et de volatilité posés par l'utilisateur
     def algorihtme_genetique(self, liste_assets, max_invest, exp_ret, exp_vol,date_1,date_2,connexion):
@@ -106,12 +93,10 @@ class AlgoG() :
 
                 return self.pop.list_portefeuille[0]
 
-
-
     #Crée la nouvelle population pour chaque génération
     def Generation(self, liste_assets, max_invest, generation, date_1,date_2,connexion):
 
-            print('\n############## Generation : '+str(generation)+' ##############\n')
+            print('\n############## Generation : '+str(generation+1)+' ##############\n')
             self.pop = Population(self.nouvelle_population(liste_assets,max_invest,date_1,date_2,connexion))
             self.sort_population()
 

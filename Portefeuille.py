@@ -17,8 +17,6 @@ class Portefeuille():
         self.rendement = rendement
         self.score = score
 
-
-
     # Calcul du prix de l'actif avec le moins de valeur
     def plus_petit_prix(liste_Actif):
         min = liste_Actif[0].valeur
@@ -27,8 +25,6 @@ class Portefeuille():
                 min = asset.valeur
         #retourne le prix le plus faible
         return min 
-
-
 
     #Créé un portefeuil composé d'une liste d'action aléatoire
     def Creation_Portefeuille(self, MaxInvesti,date_1,date_2,connexion):
@@ -68,11 +64,9 @@ class Portefeuille():
         self.VolPortefeuille(date_1,date_2,connexion)
         self.RendementsPF()
         #On calcul le score du portefeuille grace a la fitness
-        self.score = fitness(self, 0).RatioSharpe()
+        self.score = fitness(self).RatioSharpe()
 
         return self
-
-
 
     #Calcul la valeur d'un portefeuille
     def Valeur_Portefeuille(self):
@@ -84,9 +78,6 @@ class Portefeuille():
             self.valeur = self.valeur +  self.liste_Actifs[i].valeur*int( self.liste_Actifs[i].nb_shares)
         return self
 
-
-
-    
     def Poid_dans_portefeuille(self):
         #Defini le poid qu'on les actions dans le portefeuille
         for i in range(len(self.liste_Actifs)):
@@ -94,8 +85,6 @@ class Portefeuille():
             poids = self.liste_Actifs[i].valeur * self.liste_Actifs[i].nb_shares
             self.liste_Actifs[i].poids  = round(poids / self.valeur,5)
         return self
-
-
 
     #Calcule la volatilité d'un portefeuille entre deux dates
     def VolPortefeuille(self,date_1,date_2,connexion):
@@ -112,8 +101,6 @@ class Portefeuille():
 
         self.volatilite=vol
 
-
-
     #Calcule le rendement d'un portefeuille (Rendements PorteFeuille)
     def RendementsPF(self):
         liste_Actif = self.liste_Actifs
@@ -127,9 +114,7 @@ class Portefeuille():
                 RendementPF+=Liste[j][0]*i.nb_shares*Liste[j][1]/self.valeur
             SommePF*=(1+RendementPF)
 
-        self.rendement = SommePF-1
-
-
+        self.rendement = (SommePF-1)/10
 
     #Fonction permettant de muter un portefeuille d'une population
     #Fonctionne comme la fonction 'Creation_Portefeuille' en retirant la valeur d'un actif
@@ -174,21 +159,17 @@ class Portefeuille():
         self.Poid_dans_portefeuille()
         self.VolPortefeuille(date_1,date_2,connexion)
         self.RendementsPF()
-        self.score = fitness(self, 0).RatioSharpe()
+        self.score = fitness(self).RatioSharpe()
         
         print('\nPORTEFEUILLE MUTE : ')
         print(self.__repr__())
 
         return self
 
-
-
     #Retourne une chaine de caractere décrivant un portefeuille
     def __repr__(self):
         return "\nValeur du Portefeuille : {0}\nVolatilité :{1}\nrendement :{2}\nScore du portefeuille (Ratio Sharpe) :  {3}\n".format(self.valeur,self.volatilite,self.rendement,self.score) 
     
-
-
     #Retourne une chaine de caractere composé de la liste des actions contenu dans un portefeuille
     #Et les informations associées à ces actions
     def __str__(self):
