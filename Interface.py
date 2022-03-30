@@ -73,7 +73,7 @@ class Interface(tk.Tk):
         self.saisie3.config(bg="grey")
         self.saisie3.pack()
 
-        self.bouton = Button(self, text = "VALIDER", width=8, command= getEntry)
+        self.bouton = Button(self, text = "VALIDER", width=8, command= getEntry)#il faut valider son choix pour que le programme fonctionne
         self.bouton.pack()
 
         self.bouton1 = Button(self, text = "CALCULER", width=8)
